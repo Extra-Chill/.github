@@ -1,6 +1,6 @@
 # Extra Chill
 
-A comprehensive WordPress development ecosystem supporting a vibrant music community platform.
+A WordPress development ecosystem supporting Extra Chill, an independent music platform. 
 
 ## About
 
