@@ -1,6 +1,6 @@
-This document provides an overview of the extrachill.com multisite network. 
+This document provides an overview of the extrachill.com multisite network.
 
-The extrachill.com multisite network has FOUR (4) sites. Each have a different set of extrachill plugins installed. 
+The extrachill.com multisite network has FOUR (4) sites. Each has a different set of extrachill plugins installed.
 
 All sites use the extrachill theme. Plugins hook into the theme to provide custom functionality.
 
@@ -26,7 +26,7 @@ Plugins NOT installed:
 
 **2. community.extrachill.com**
 
-This is the community site, where users enter and join, and then use their community account to interact with the whole network. Provides extrachill.link functionality via sunrise.php
+This is the community site, where users enter and join, and then use their community account to interact with the whole network.
 
 Plugins installed:
 
@@ -51,4 +51,4 @@ Status: Planning stage only - empty plugin file exists
 
 Plugins installed:
 
-- ExtraChill Mobile API (empty implementation - planning stage only)
+- ExtraChill Mobile API (planning stage only - contains documentation files)
