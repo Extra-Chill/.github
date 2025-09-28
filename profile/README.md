@@ -1,4 +1,4 @@
-# Extra Chill 🎵
+# Extra Chill
 
 A comprehensive WordPress development ecosystem supporting a vibrant music community platform.
 
