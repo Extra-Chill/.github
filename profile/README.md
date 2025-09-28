@@ -29,7 +29,7 @@ Extra Chill is a music publication and community platform built on WordPress mul
 
 ### Shared Infrastructure
 - **sunrise.php** - Multisite domain mapping
-- **MULTISITE-ARCHITECTURE.MD** - Network documentation
+
 - **CLAUDE.md** - Development standards
 
 ## Technology Stack

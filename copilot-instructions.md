@@ -1,19 +1,6 @@
 # AI Assistant Instructions for Extra Chill Platform
 
-Purpose: Enable AI agents ### Mult### WordPress Plugin Architecture
-- **Mixed PSR-4/Procedural**: Some plugins use PSR-4 autoloading, others procedural patterns
-- **Network vs Site-Specific**: Network plugins (multisite) vs site-specific installations
-- **Centralized Loading**: Main plugin files load includes in logical order via `load_includes()`
-- **Filter-Based Registration**: Services register via WordPress filters for extensibility
-- **Security First**: Nonces, capability checks (`ec_can_manage_*()`), prepared statements, `wp_unslash()` before sanitizationSecurity Patterns
--### Cross-Component Communication
-- **Multisite Functions**: Hardcoded blog IDs (main=1, community=2, shop=3, app=4), `switch_to_blog()`, `restore_current_blog()`
-- **Avatar Menu Injection**: `ec_avatar_menu_items` filter for plugin-theme integration
-- **Forum Integration**: bbPress hooks and custom forum section overrides
-- **Theme Guards**: `function_exists()`/`class_exists()` for WooCommerce/bbPress dependencies
-- **Network-Activated Hooks**: `extrachill-multisite` provides shared functionalitymin Access Control**: Non-administrators redirected from wp-admin (`extrachill_redirect_admin()`)
-- **Admin Bar Hiding**: Non-admins don't see admin bar (`extrachill_hide_admin_bar_for_non_admins()`)
-- **Login Redirect Handling**: Admins bypass frontend redirects (`extrachill_prevent_admin_auth_redirect()`)e high-quality, production-safe contributions to the Extra Chill WordPress ecosystem immediately.
+Enable AI agents to make high-quality, production-safe contributions to the Extra Chill WordPress ecosystem immediately.
 
 ## 1. Big Picture Architecture
 
@@ -25,7 +12,7 @@ Purpose: Enable AI agents ### Mult### WordPress Plugin Architecture
 - **shop.extrachill.com (Blog ID: 3)**: E-commerce - WooCommerce integration, merchandise sales
 - **app.extrachill.com (Blog ID: 4)**: Mobile API - React Native app backend (planning stage)
 
-### Plugins (Site-Specific Installation)
+### Plugins (Site-Specific Installation in `/extrachill-plugins/`)
 - **extrachill-multisite/**: Network-activated plugin providing centralized multisite functionality
 - **extrachill-artist-platform/**: Artist profiles, link pages, analytics, subscription system (community site)
 - **extrachill-community/**: bbPress forums, user management, social features (community site)
@@ -37,7 +24,7 @@ Purpose: Enable AI agents ### Mult### WordPress Plugin Architecture
 - **extrachill-admin-tools/**: Centralized admin tools, 404 logging (network-wide)
 - **extrachill-mobile-api/**: Mobile app API endpoints (planning stage - app site)
 
-### Themes
+### Theme
 - **extrachill/**: Unified theme serving all sites with conditional functionality
 
 ### Mobile & Planning
@@ -59,7 +46,7 @@ Purpose: Enable AI agents ### Mult### WordPress Plugin Architecture
 composer install && composer test
 
 # Production builds: Run in each plugin/theme directory
-./build.sh  # Creates dist/[project].zip excluding dev files
+./build.sh  # Creates dist/[project].zip excluding dev files (8 of 10 plugins have build.sh)
 
 # PHP quality checks
 composer run lint:php && composer run lint:fix
@@ -85,18 +72,24 @@ vendor/bin/phpunit --filter TestClassName
 ### Multisite Development
 ```bash
 # Network-activated plugins (extrachill-multisite) affect all sites
-# Site-specific plugins installed per site based on MULTISITE-ARCHITECTURE.MD
+# Site-specific plugins installed per site based on requirements
 # Theme changes affect all sites - test across network
 ```
 
 ## 3. Project-Specific Conventions
 
 ### WordPress Plugin Architecture
-- **PSR-4 Autoloading**: All plugins use Composer with namespace structure (`Chubes\\Extrachill\\`)
-- **Singleton Pattern**: Core classes (ExtraChillArtistPlatform, templates, assets)
-- **Centralized Loading**: Main plugin file loads includes in logical order via `load_includes()`
+- **Mixed PSR-4/Procedural**: Some plugins use PSR-4 autoloading, others procedural patterns
+- **Network vs Site-Specific**: Network plugins (multisite) vs site-specific installations
+- **Centralized Loading**: Main plugin files load includes in logical order via `load_includes()`
 - **Filter-Based Registration**: Services register via WordPress filters for extensibility
 - **Security First**: Nonces, capability checks (`ec_can_manage_*()`), prepared statements, `wp_unslash()` before sanitization
+
+### Security Patterns
+- **Admin Access Control**: Non-administrators redirected from wp-admin (`extrachill_redirect_admin()`)
+- **Admin Bar Hiding**: Non-admins don't see admin bar (`extrachill_hide_admin_bar_for_non_admins()`)
+- **Login Redirect Handling**: Admins bypass frontend redirects (`extrachill_prevent_admin_auth_redirect()`)
+
 
 ### JavaScript Architecture Patterns
 - **Event-Driven Communication**: CustomEvent dispatching between management/preview modules
@@ -105,12 +98,14 @@ vendor/bin/phpunit --filter TestClassName
 - **Conditional Loading**: Assets loaded contextually with filemtime() versioning
 - **CustomEvent Patterns**: Standardized events like `infoChanged`, `linksChanged`, `backgroundChanged`
 
-### Asset Management
-- **Dynamic Versioning**: `filemtime($path)` for all enqueues (no cache-busting query strings)
-- **Contextual Loading**: Page-specific CSS/JS with narrow conditions
-- **Dependency Management**: CSS handles declared with proper dependencies
-- **File Existence Checks**: Always verify assets exist before enqueuing
-- **Theme Guards**: `function_exists()`/`class_exists()` for WooCommerce/bbPress dependencies
+### Theme Architecture Patterns
+- **Hook-Based Menus**: Action hooks for menu extensibility (`extrachill_navigation_main_menu`, `extrachill_footer_main_content`)
+- **Modular CSS Loading**: Root variables first, then page-specific styles with proper dependencies
+- **Template Hierarchy**: Custom taxonomy templates (artist, venue, festival) with REST API support
+- **Plugin Integration Hooks**: Homepage sections via action hooks (`extrachill_homepage_hero`, `extrachill_homepage_content_top`)
+- **Asset Organization**: All assets in `assets/css/` and `assets/js/` directories
+- **Conditional WooCommerce Loading**: E-commerce assets only load on store pages for performance
+- **Template Override System**: Plugin templates override theme templates via `template_include` filter
 
 ### Data Architecture
 - **Single Source of Truth**: Functions like `ec_get_link_page_data()` centralize data access
@@ -118,14 +113,19 @@ vendor/bin/phpunit --filter TestClassName
 - **Live Preview Overrides**: Data functions support preview mode modifications
 - **Validation Layers**: Input sanitization and type checking at data boundaries
 - **Multisite Queries**: Direct database access via `switch_to_blog()` with hardcoded blog IDs
+- **Custom Taxonomies**: Artist, venue, festival taxonomies with REST API support
+- **Plugin Integration Mapping**: Taxonomy-to-styling mappings for cross-plugin compatibility
 
 ## 4. Integration Points & Dependencies
 
 ### Cross-Component Communication
-- **Multisite Functions**: Hardcoded blog IDs (community=2, main=1, shop=3), `switch_to_blog()`, `restore_current_blog()`
+- **Multisite Functions**: Hardcoded blog IDs (main=1, community=2, shop=3, app=4), `switch_to_blog()`, `restore_current_blog()`
 - **Avatar Menu Injection**: `ec_avatar_menu_items` filter for plugin-theme integration
 - **Forum Integration**: bbPress hooks and custom forum section overrides
 - **Theme Guards**: `function_exists()`/`class_exists()` for WooCommerce/bbPress dependencies
+- **Theme Plugin Hooks**: Homepage sections via `extrachill_homepage_*` action hooks
+- **Menu System Hooks**: Navigation extensibility via `extrachill_navigation_*` action hooks
+- **Plugin Integration Hooks**: Cross-plugin functionality via filter/action overrides
 
 ### External Dependencies
 - **bbPress**: Required for community features (guarded with `class_exists()`)
@@ -133,6 +133,7 @@ vendor/bin/phpunit --filter TestClassName
 - **Font Awesome**: Icon system with custom social platform extensions
 - **Google Fonts**: Local font loading (no external CDNs)
 - **Composer Packages**: QR code generation, testing frameworks
+- **Cross-Domain License Systems**: Product purchases affecting other sites in multisite network
 
 ### API Endpoints
 - **Legacy REST**: `/wp-json/extrachill/v1/*` maintained for mobile app
@@ -247,6 +248,13 @@ document.addEventListener('infoChanged', function(e) {
 });
 ```
 
+### Theme Hook-Based Menu System
+```php
+// Plugin can add menu items via hooks
+add_action('extrachill_navigation_main_menu', 'my_plugin_add_menu_item', 15);
+add_action('extrachill_footer_main_content', 'my_plugin_add_footer_section', 20);
+```
+
 ## 7. Build System Standards
 
 ### Production Packaging
@@ -264,14 +272,14 @@ build.sh, package.json, composer.lock, .buildignore, tests/
 ## 8. Adding New Features
 
 ### Network Plugin Features
-1. Add to `extrachill-multisite/inc/core/` for network-wide functionality
-2. Add to `extrachill-multisite/inc/<site>/` for site-specific network features
+1. Add to `extrachill-plugins/extrachill-multisite/inc/core/` for network-wide functionality
+2. Add to `extrachill-plugins/extrachill-multisite/inc/<site>/` for site-specific network features
 3. Use network activation checks and multisite functions
 4. Follow admin access control patterns
 
 ### Theme Features
-1. Add conditional logic in `functions.php`
-2. Create feature files in `inc/<area>/`
+1. Add conditional logic in `extrachill/functions.php`
+2. Create feature files in `extrachill/inc/<area>/`
 3. Enqueue assets with filemtime() versioning
 4. Use narrow page conditions for loading
 5. Extend existing CSS/JS rather than replacing
