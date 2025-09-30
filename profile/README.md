@@ -9,9 +9,12 @@ Extra Chill is a music publication and community platform built on WordPress mul
 ### Network Architecture
 
 - **extrachill.com** - Main music publication site
-- **community.extrachill.com** - Community forums and artist platform
-- **shop.extrachill.com** - Merchandise store
-- **app.extrachill.com** - Mobile app (planned)
+- **community.extrachill.com** - Community forums and user authentication hub
+- **shop.extrachill.com** - E-commerce platform with WooCommerce
+- **artist.extrachill.com** - Artist platform and profiles
+- **chat.extrachill.com** - AI chatbot system
+- **events.extrachill.com** - Calendar and event management
+- **app.extrachill.com** - Mobile API backend (planning stage)
 
 ## Repositories
 
@@ -27,8 +30,9 @@ Extra Chill is a music publication and community platform built on WordPress mul
 - **extrachill-blocks** - Custom Gutenberg blocks for community engagement
 - **extrachill-login-register** - Network-wide authentication system
 - **extrachill-news-wire** - Festival Wire custom post type
+- **extrachill-chat** - AI chatbot system for chat.extrachill.com
 - **extrachill-mobile-api** - Mobile app API (planned)
-- **extrachill-ai-client** - Centralized AI provider integration
+- **extrachill-ai-client** - Network-activated AI provider integration
 
 ### WordPress Themes
 - **extrachill** - Main theme for extrachill.com and community.extrachill.com
