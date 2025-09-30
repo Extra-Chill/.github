@@ -13,7 +13,7 @@ Enable AI agents to make high-quality, production-safe contributions to the Extr
 - **app.extrachill.com (Blog ID: 4)**: Mobile API - React Native app backend (planning stage)
 
 ### Plugins (Site-Specific Installation in `/extrachill-plugins/`)
-- **extrachill-multisite/**: Network-activated plugin providing centralized multisite functionality
+- **extrachill-multisite/**: Network-activated plugin providing centralized multisite functionality, team members system, Turnstile integration
 - **extrachill-artist-platform/**: Artist profiles, link pages, analytics, subscription system (community site)
 - **extrachill-community/**: bbPress forums, user management, social features (community site)
 - **extrachill-newsletter/**: Sendy integration, email campaigns (main site)
@@ -22,7 +22,8 @@ Enable AI agents to make high-quality, production-safe contributions to the Extr
 - **extrachill-contact/**: Contact forms with newsletter integration (main site)
 - **extrachill-events/**: Event management system (main site)
 - **extrachill-admin-tools/**: Centralized admin tools, 404 logging (network-wide)
-- **extrachill-mobile-api/**: Mobile app API endpoints (planning stage - app site)
+- **extrachill-blocks/**: Custom Gutenberg blocks for community engagement (trivia, voting, name generators)
+- **extrachill-mobile-api/**: Mobile app API endpoints (planning stage only - empty plugin file)
 
 ### Theme
 - **extrachill/**: Unified theme serving all sites with conditional functionality
@@ -46,7 +47,7 @@ Enable AI agents to make high-quality, production-safe contributions to the Extr
 composer install && composer test
 
 # Production builds: Run in each plugin/theme directory
-./build.sh  # Creates dist/[project].zip excluding dev files (8 of 10 plugins have build.sh)
+./build.sh  # Creates dist/[project].zip excluding dev files (10 of 11 plugins have build.sh)
 
 # PHP quality checks
 composer run lint:php && composer run lint:fix
@@ -79,9 +80,15 @@ vendor/bin/phpunit --filter TestClassName
 ## 3. Project-Specific Conventions
 
 ### WordPress Plugin Architecture
-- **Mixed PSR-4/Procedural**: Some plugins use PSR-4 autoloading, others procedural patterns
+- **Direct Include Loading**: ALL plugins use `require_once` includes - NO PSR-4 autoloading for plugin code
+  - **Composer Autoloading**: Exists in `composer.json` but ONLY for development dependencies (PHPUnit, PHPCS)
+  - **extrachill-artist-platform**: Singleton class with direct includes in constructor
+  - **extrachill-multisite**: Procedural pattern with direct includes in initialization function
+  - **extrachill-community**: Procedural patterns with master loader system
+  - **extrachill-admin-tools**: Procedural filter-based tool registration
+  - **extrachill-blocks**: Procedural automatic block discovery
 - **Network vs Site-Specific**: Network plugins (multisite) vs site-specific installations
-- **Centralized Loading**: Main plugin files load includes in logical order via `load_includes()`
+- **Centralized Loading**: Main plugin files load includes in logical order via initialization functions
 - **Filter-Based Registration**: Services register via WordPress filters for extensibility
 - **Security First**: Nonces, capability checks (`ec_can_manage_*()`), prepared statements, `wp_unslash()` before sanitization
 
@@ -90,6 +97,14 @@ vendor/bin/phpunit --filter TestClassName
 - **Admin Bar Hiding**: Non-admins don't see admin bar (`extrachill_hide_admin_bar_for_non_admins()`)
 - **Login Redirect Handling**: Admins bypass frontend redirects (`extrachill_prevent_admin_auth_redirect()`)
 
+### Code Style Guidelines
+- **PHP**: WordPress Coding Standards (WPCS), direct `require_once` includes, nonces/capability checks, prepared statements for user input
+- **Naming**: snake_case functions, PascalCase classes, camelCase vars, UPPER_SNAKE_CASE constants, kebab-case files
+- **Imports**: `require_once` for all includes, Composer autoloader ONLY for dev dependencies, conditional loading with file_exists()
+- **Formatting**: 4 spaces indent, 80-120 char lines, same-line braces, single space after commas
+- **Error Handling**: WP patterns with logging; no fallback placeholders
+- **Security**: Escaping (esc_html, esc_attr), no secrets in code
+- **Comments**: Only for nuanced behavior; remove outdated docs
 
 ### JavaScript Architecture Patterns
 - **Event-Driven Communication**: CustomEvent dispatching between management/preview modules
@@ -99,13 +114,14 @@ vendor/bin/phpunit --filter TestClassName
 - **CustomEvent Patterns**: Standardized events like `infoChanged`, `linksChanged`, `backgroundChanged`
 
 ### Theme Architecture Patterns
+- **Universal Template Routing**: Theme uses `index.php` as central template router with plugin override support
+- **Template Filters**: Each page type supports `extrachill_template_*` filters for plugin customization
 - **Hook-Based Menus**: Action hooks for menu extensibility (`extrachill_navigation_main_menu`, `extrachill_footer_main_content`)
 - **Modular CSS Loading**: Root variables first, then page-specific styles with proper dependencies
 - **Template Hierarchy**: Custom taxonomy templates (artist, venue, festival) with REST API support
 - **Plugin Integration Hooks**: Homepage sections via action hooks (`extrachill_homepage_hero`, `extrachill_homepage_content_top`)
 - **Asset Organization**: All assets in `assets/css/` and `assets/js/` directories
 - **Conditional WooCommerce Loading**: E-commerce assets only load on store pages for performance
-- **Template Override System**: Plugin templates override theme templates via `template_include` filter
 
 ### Data Architecture
 - **Single Source of Truth**: Functions like `ec_get_link_page_data()` centralize data access
@@ -150,7 +166,7 @@ vendor/bin/phpunit --filter TestClassName
 - **Admin Access Control**: Network-wide admin restrictions for non-administrators
 
 ### Code Organization
-- **Namespace Structure**: PSR-4 following project naming (`Chubes\\Extrachill\\`)
+- **Loading Pattern**: Direct `require_once` includes throughout all plugins
 - **File Structure**: Feature-based directories with clear separation
 - **Hook Integration**: Extensive use of `add_action()`/`add_filter()` for extensibility
 - **Error Handling**: WordPress patterns with logging, no silent failures
