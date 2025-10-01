@@ -1,6 +1,6 @@
 <?php
 /**
- * WordPress Multisite Domain Mapping
+ * extrachill.link Domain Mapping
  *
  * Maps extrachill.link to community.extrachill.com (site ID 2) while preserving
  * extrachill.link URLs in the frontend.

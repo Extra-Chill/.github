@@ -4,13 +4,18 @@ Enable AI agents to make high-quality, production-safe contributions to the Extr
 
 ## 1. Big Picture Architecture
 
-**4-Site WordPress Multisite Network**: The Extra Chill platform consists of four interconnected WordPress sites with native cross-domain authentication and shared user sessions.
+**7-Site WordPress Multisite Network**: The Extra Chill platform consists of seven interconnected WordPress sites with native cross-domain authentication and shared user sessions.
 
 ### Core Sites & Components
-- **extrachill.com (Blog ID: 1)**: Main website - blog posts, music journalism, newsletter integration
-- **community.extrachill.com (Blog ID: 2)**: Community forums - bbPress integration, user interactions, artist platform
-- **shop.extrachill.com (Blog ID: 3)**: E-commerce - WooCommerce integration, merchandise sales
-- **app.extrachill.com (Blog ID: 4)**: Mobile API - React Native app backend (planning stage)
+1. **extrachill.com**: Main website - blog posts, music journalism, newsletter integration
+2. **community.extrachill.com**: Community forums - bbPress integration, user interactions, artist platform
+3. **shop.extrachill.com**: E-commerce - WooCommerce integration, merchandise sales
+4. **app.extrachill.com**: Mobile API - React Native app backend (planning stage only)
+5. **chat.extrachill.com**: AI chatbot system with ChatGPT-style interface
+6. **artist.extrachill.com**: Artist platform and profiles
+7. **events.extrachill.com**: Event calendar hub powered by Data Machine
+
+**Blog ID Resolution**: All plugins use dynamic `get_blog_id_from_url('domain.extrachill.com', '/')` for site identification rather than hardcoded IDs. WordPress automatically caches blog IDs via blog-id-cache for performance.
 
 ### Plugins (Site-Specific Installation in `/extrachill-plugins/`)
 - **extrachill-multisite/**: Network-activated plugin providing centralized multisite functionality, team members system, Turnstile integration
@@ -23,7 +28,9 @@ Enable AI agents to make high-quality, production-safe contributions to the Extr
 - **extrachill-events/**: Event management system (main site)
 - **extrachill-admin-tools/**: Centralized admin tools, 404 logging (network-wide)
 - **extrachill-blocks/**: Custom Gutenberg blocks for community engagement (trivia, voting, name generators)
-- **extrachill-mobile-api/**: Mobile app API endpoints (planning stage only - empty plugin file)
+- **extrachill-mobile-api/**: Mobile app API endpoints (planning stage only - empty plugin file with comprehensive documentation)
+- **extrachill-chat/**: AI chatbot with homepage template override for chat.extrachill.com
+- **extrachill-events/**: Event calendar integration with homepage template override for events.extrachill.com
 
 ### Theme
 - **extrachill/**: Unified theme serving all sites with conditional functionality
@@ -33,10 +40,10 @@ Enable AI agents to make high-quality, production-safe contributions to the Extr
 
 ### Architectural Principles
 - **WordPress Multisite Native**: Direct database queries via `switch_to_blog()`/`restore_current_blog()`
-- **Hardcoded Blog IDs**: main=1, community=2, shop=3, app=4 for maximum performance
+- **Domain-Based Blog ID Resolution**: Uses `get_blog_id_from_url()` with automatic blog-id-cache for maintainable, readable code (no hardcoded blog IDs)
 - **Network-Activated Core**: `extrachill-multisite` provides shared functionality across all sites
 - **Site-Specific Plugins**: Each site has tailored plugin combinations for its purpose
-- **Unified Theme**: Single theme with conditional loading adapts to each site's needs
+- **Unified Theme**: Single theme with conditional loading adapts to each site's needs via template override filters
 - **Cross-Domain Sessions**: Native WordPress authentication eliminates custom token complexity
 
 ## 2. Critical Developer Workflows
@@ -128,14 +135,14 @@ vendor/bin/phpunit --filter TestClassName
 - **Filter Extensibility**: `apply_filters('extrch_get_link_page_data', $data)`
 - **Live Preview Overrides**: Data functions support preview mode modifications
 - **Validation Layers**: Input sanitization and type checking at data boundaries
-- **Multisite Queries**: Direct database access via `switch_to_blog()` with hardcoded blog IDs
+- **Multisite Queries**: Direct database access via `switch_to_blog()` with domain-based blog ID resolution
 - **Custom Taxonomies**: Artist, venue, festival taxonomies with REST API support
 - **Plugin Integration Mapping**: Taxonomy-to-styling mappings for cross-plugin compatibility
 
 ## 4. Integration Points & Dependencies
 
 ### Cross-Component Communication
-- **Multisite Functions**: Hardcoded blog IDs (main=1, community=2, shop=3, app=4), `switch_to_blog()`, `restore_current_blog()`
+- **Multisite Functions**: Domain-based blog ID resolution via `get_blog_id_from_url()`, `switch_to_blog()`, `restore_current_blog()`
 - **Avatar Menu Injection**: `ec_avatar_menu_items` filter for plugin-theme integration
 - **Forum Integration**: bbPress hooks and custom forum section overrides
 - **Theme Guards**: `function_exists()`/`class_exists()` for WooCommerce/bbPress dependencies
