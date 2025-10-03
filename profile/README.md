@@ -35,10 +35,10 @@ Extra Chill is a music publication and community platform built on WordPress mul
 - **extrachill-ai-client** - Network-activated AI provider integration
 
 ### WordPress Themes
-- **extrachill** - Main theme for extrachill.com and community.extrachill.com
+- **extrachill** - Main theme for all sites
 
 ### Shared Infrastructure
-- **sunrise.php** - Multisite domain mapping
+- **sunrise.php** - extrachill.link domain mapping to community.extrachill.com
 
 - **CLAUDE.md** - Development standards
 
