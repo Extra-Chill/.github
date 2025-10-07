@@ -54,7 +54,7 @@ Enable AI agents to make high-quality, production-safe contributions to the Extr
 composer install && composer test
 
 # Production builds: Run in each plugin/theme directory
-./build.sh  # Creates dist/[project].zip excluding dev files (10 of 11 plugins have build.sh)
+./build.sh  # Creates /build/[project]/ directory and /build/[project].zip file (13 of 14 plugins have build.sh)
 
 # PHP quality checks
 composer run lint:php && composer run lint:fix
@@ -121,8 +121,9 @@ vendor/bin/phpunit --filter TestClassName
 - **CustomEvent Patterns**: Standardized events like `infoChanged`, `linksChanged`, `backgroundChanged`
 
 ### Theme Architecture Patterns
-- **Universal Template Routing**: Theme uses `index.php` as central template router with plugin override support
+- **Universal Template Routing**: Theme uses `inc/core/template-router.php` with WordPress native `template_include` filter for proper template routing
 - **Template Filters**: Each page type supports `extrachill_template_*` filters for plugin customization
+- **Emergency Fallback**: `index.php` serves as minimal emergency fallback only
 - **Hook-Based Menus**: Action hooks for menu extensibility (`extrachill_navigation_main_menu`, `extrachill_footer_main_content`)
 - **Modular CSS Loading**: Root variables first, then page-specific styles with proper dependencies
 - **Template Hierarchy**: Custom taxonomy templates (artist, venue, festival) with REST API support

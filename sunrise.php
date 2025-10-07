@@ -2,15 +2,17 @@
 /**
  * extrachill.link Domain Mapping
  *
- * Maps extrachill.link to community.extrachill.com (site ID 2) while preserving
+ * Maps extrachill.link to artist.extrachill.com while preserving
  * extrachill.link URLs in the frontend.
  *
  * This file should be copied to wp-content/sunrise.php on the server.
+ *
+ * NOTE: Update blog_id below with actual artist.extrachill.com blog ID from WordPress Network Admin
  */
 
 $extra_domains = [
     // 'domain' => blog_id
-    'extrachill.link' => 2  // Community site ID where artist platform plugin resides
+    'extrachill.link' => 4  // Artist site ID where artist platform plugin resides (artist.extrachill.com)
 ];
 
 // Domain mapping happens FIRST - before any redirects
@@ -40,7 +42,7 @@ if (
 
     // Handle only specific redirects AFTER domain mapping is established
     if ($request_path === 'join') {
-        header('Location: https://community.extrachill.com/login/?from_join=true', true, 301);
+        header('Location: https://artist.extrachill.com/login/?from_join=true', true, 301);
         exit;
     }
 
