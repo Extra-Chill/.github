@@ -7,24 +7,33 @@ The Extra Chill Platform operates as a **WordPress multisite network** consistin
 1. **extrachill.com** - Main music journalism and content site
 2. **community.extrachill.com** - Community forums and user authentication hub
 3. **shop.extrachill.com** - E-commerce platform with WooCommerce
-4. **app.extrachill.com** - Mobile API backend (planning stage only)
+4. **artist.extrachill.com** - Artist platform and profiles
 5. **chat.extrachill.com** - AI chatbot system with ChatGPT-style interface
-6. **artist.extrachill.com** - Artist platform and profiles
+6. **app.extrachill.com** - Mobile API backend (planning stage only)
 7. **events.extrachill.com** - Event calendar hub powered by Data Machine
 
 **Blog ID Resolution**: All plugins use dynamic `get_blog_id_from_url('domain.extrachill.com', '/')` for site identification rather than hardcoded IDs. WordPress automatically caches blog IDs via blog-id-cache for performance while maintaining readable, maintainable code.
 
 All sites use the **extrachill theme** with the **universal template routing system**. Individual plugins hook into the theme to provide site-specific functionality.
 
-## Network-Activated Plugin
+## Network-Activated Plugins
 
 **ExtraChill Multisite** - Network-activated plugin providing centralized multisite functionality across all sites in the network, including:
 - Cross-site data access using `switch_to_blog()` and `restore_current_blog()`
-- Real-time multisite search integration
 - Admin access control across network
 - Team members system and Turnstile integration
 - Ad-free license validation system
 - Unified comment and author management
+- Newsletter bridge function for Sendy integration
+- User avatar menu system
+
+**ExtraChill Search** - Network-activated universal search plugin providing:
+- Real-time multisite search across all network sites via `extrachill_multisite_search()` function
+- Domain-based site resolution using `get_blog_id_from_url()` with blog-id-cache
+- Flexible post type support (posts, pages, bbPress topics/replies, custom post types)
+- Meta query support for advanced filtering
+- Cross-site pagination and contextual excerpts
+- Search results template with site badges
 
 **Plugin Architecture**: All Extra Chill plugins use direct `require_once` includes for loading. Composer autoloading exists only for development dependencies (PHPUnit, PHPCS).
 
