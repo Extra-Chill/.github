@@ -156,6 +156,42 @@ restore_dev_deps() {
     fi
 }
 
+# Build Gutenberg blocks if using @wordpress/scripts
+build_gutenberg_blocks() {
+    print_status "Checking for Gutenberg block build requirements..."
+
+    # Check if package.json exists
+    if [ ! -f "package.json" ]; then
+        print_status "No package.json found, skipping block build"
+        return 0
+    fi
+
+    # Check if @wordpress/scripts is in package.json
+    if ! grep -q "@wordpress/scripts" "package.json"; then
+        print_status "No @wordpress/scripts found, skipping block build"
+        return 0
+    fi
+
+    print_status "Building Gutenberg blocks with @wordpress/scripts..."
+
+    # Check if node_modules exists, install if missing
+    if [ ! -d "node_modules" ]; then
+        print_status "Installing npm dependencies..."
+        npm install --quiet 2>&1
+    fi
+
+    # Run the build command
+    print_status "Compiling blocks..."
+    npm run build --quiet 2>&1
+
+    if [ $? -eq 0 ]; then
+        print_success "Gutenberg blocks built successfully"
+    else
+        print_error "Block build failed"
+        exit 1
+    fi
+}
+
 # Create rsync exclude patterns
 create_rsync_excludes() {
     local exclude_file="$1"
@@ -300,6 +336,7 @@ build_project() {
 
     clean_previous_builds
     install_production_deps
+    build_gutenberg_blocks
     copy_project_files
 
     if ! validate_build; then
