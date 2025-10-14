@@ -1,11 +1,22 @@
 #!/bin/bash
 
 # Universal Build Script for WordPress Plugins and Themes
-# Automatically detects project type and creates standardized production builds
+#
+# Automatically detects project type from headers (Plugin Name or Theme Name)
+# and creates standardized production builds with dependency management.
 #
 # Output Structure (CLAUDE.md compliant):
 #   /build/[project-name]/       - Clean production directory
 #   /build/[project-name].zip    - Production ZIP file (non-versioned)
+#
+# Features:
+# - Auto-detects plugin/theme from file headers
+# - Extracts version for validation and logging
+# - Installs production dependencies (composer --no-dev)
+# - Builds Gutenberg blocks (@wordpress/scripts support)
+# - Copies files using rsync with .buildignore exclusions
+# - Validates build structure before packaging
+# - Restores dev dependencies after build
 #
 # Usage: Run from plugin or theme directory: ./build.sh
 
