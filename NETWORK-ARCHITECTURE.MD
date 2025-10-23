@@ -2,7 +2,7 @@ This document provides an overview of the Extra Chill Platform WordPress multisi
 
 ## Network Architecture
 
-The Extra Chill Platform operates as a **WordPress multisite network** consisting of **seven (7) interconnected sites**:
+The Extra Chill Platform operates as a **WordPress multisite network** consisting of **eight (8) interconnected sites**:
 
 1. **extrachill.com** - Main music journalism and content site
 2. **community.extrachill.com** - Community forums and user authentication hub
@@ -11,8 +11,11 @@ The Extra Chill Platform operates as a **WordPress multisite network** consistin
 5. **chat.extrachill.com** - AI chatbot system with ChatGPT-style interface
 6. **app.extrachill.com** - Mobile API backend (planning stage only)
 7. **events.extrachill.com** - Event calendar hub powered by Data Machine
+8. **stream.extrachill.com** - Live streaming platform (Phase 1 non-functional UI)
 
-**Blog ID Resolution**: All plugins use dynamic `get_blog_id_from_url('domain.extrachill.com', '/')` for site identification rather than hardcoded IDs. WordPress automatically caches blog IDs via blog-id-cache for performance while maintaining readable, maintainable code.
+### Blog ID Resolution
+
+**Dynamic Site Discovery**: Plugins use `get_sites()` to dynamically enumerate all network sites. WordPress automatically caches blog IDs via blog-id-cache for optimal performance.
 
 All sites use the **extrachill theme** with the **universal template routing system**. Individual plugins hook into the theme to provide site-specific functionality.
 
@@ -29,7 +32,7 @@ All sites use the **extrachill theme** with the **universal template routing sys
 
 **ExtraChill Search** - Network-activated universal search plugin providing:
 - Real-time multisite search across all network sites via `extrachill_multisite_search()` function
-- Domain-based site resolution using `get_blog_id_from_url()` with blog-id-cache
+- Dynamic site discovery via `get_sites()` with automatic WordPress blog-id-cache
 - Flexible post type support (posts, pages, bbPress topics/replies, custom post types)
 - Meta query support for advanced filtering
 - Cross-site pagination and contextual excerpts
@@ -69,7 +72,7 @@ The **merchandise store** providing e-commerce functionality for the Extra Chill
 - ExtraChill Shop - WooCommerce integration with cross-domain ad-free license system
 - WooCommerce - E-commerce platform for merchandise sales
 
-**Cross-Site Features**: Ad-free license validation accessed by other sites in network using domain-based blog switching
+**Cross-Site Features**: Ad-free license validation accessed by other sites in network using dynamic site discovery
 
 ## Site 4: app.extrachill.com (Mobile API)
 

@@ -4,7 +4,7 @@ Enable AI agents to make high-quality, production-safe contributions to the Extr
 
 ## 1. Big Picture Architecture
 
-**7-Site WordPress Multisite Network**: The Extra Chill platform consists of seven interconnected WordPress sites with native cross-domain authentication and shared user sessions.
+**8-Site WordPress Multisite Network**: The Extra Chill platform consists of eight interconnected WordPress sites with native cross-domain authentication and shared user sessions.
 
 ### Core Sites & Components
 1. **extrachill.com**: Main website - blog posts, music journalism, newsletter integration
@@ -14,23 +14,43 @@ Enable AI agents to make high-quality, production-safe contributions to the Extr
 5. **chat.extrachill.com**: AI chatbot system with ChatGPT-style interface
 6. **artist.extrachill.com**: Artist platform and profiles
 7. **events.extrachill.com**: Event calendar hub powered by Data Machine
+8. **stream.extrachill.com**: Live streaming platform for artist members (Phase 1 non-functional UI)
 
-**Blog ID Resolution**: All plugins use dynamic `get_blog_id_from_url('domain.extrachill.com', '/')` for site identification rather than hardcoded IDs. WordPress automatically caches blog IDs via blog-id-cache for performance.
+**Blog ID Resolution**: Dynamic site discovery via `get_sites()` to enumerate all network sites. WordPress automatically caches blog IDs via blog-id-cache for performance.
+
+**Eight-Site Network Structure**:
+1. **extrachill.com** - Main content and journalism
+2. **community.extrachill.com** - Forums and user authentication hub
+3. **shop.extrachill.com** - E-commerce platform
+4. **app.extrachill.com** - Mobile API backend (planning stage)
+5. **chat.extrachill.com** - AI chatbot interface
+6. **artist.extrachill.com** - Artist platform and profiles
+7. **events.extrachill.com** - Event calendar hub
+8. **stream.extrachill.com** - Live streaming platform (Phase 1 non-functional UI)
 
 ### Plugins (Site-Specific Installation in `/extrachill-plugins/`)
+
+**Production Plugins:**
 - **extrachill-multisite/**: Network-activated plugin providing centralized multisite functionality, team members system, Turnstile integration
+- **extrachill-ai-client/**: Network-wide AI provider integration with centralized API key management
 - **extrachill-artist-platform/**: Artist profiles, link pages, analytics, subscription system (community site)
 - **extrachill-community/**: bbPress forums, user management, social features (community site)
-- **extrachill-newsletter/**: Sendy integration, email campaigns (main site)
-- **extrachill-news-wire/**: Music festival coverage, custom post types (main site)
-- **extrachill-shop/**: WooCommerce enhancements, e-commerce features (shop site)
-- **extrachill-contact/**: Contact forms with newsletter integration (main site)
-- **extrachill-events/**: Event management system (main site)
 - **extrachill-admin-tools/**: Centralized admin tools, 404 logging (network-wide)
 - **extrachill-blocks/**: Custom Gutenberg blocks for community engagement (trivia, voting, name generators)
-- **extrachill-mobile-api/**: Mobile app API endpoints (planning stage only - empty plugin file with comprehensive documentation)
 - **extrachill-chat/**: AI chatbot with homepage template override for chat.extrachill.com
 - **extrachill-events/**: Event calendar integration with homepage template override for events.extrachill.com
+- **extrachill-stream/**: Live streaming platform with homepage template override for stream.extrachill.com (Phase 1 non-functional UI)
+- **extrachill-users/**: User management and authentication features
+- **extrachill-search/**: Custom search functionality
+
+**Development Plugins:**
+- **extrachill-shop/**: WooCommerce enhancements, e-commerce features (shop site)
+- **extrachill-newsletter/**: Sendy integration, email campaigns (main site)
+- **extrachill-news-wire/**: Music festival coverage, custom post types (main site)
+- **extrachill-contact/**: Contact forms with newsletter integration (main site)
+
+**Planning Stage:**
+- **extrachill-mobile-api/**: Mobile app API endpoints (planning stage only - empty plugin file with comprehensive documentation)
 
 ### Theme
 - **extrachill/**: Unified theme serving all sites with conditional functionality
@@ -40,7 +60,7 @@ Enable AI agents to make high-quality, production-safe contributions to the Extr
 
 ### Architectural Principles
 - **WordPress Multisite Native**: Direct database queries via `switch_to_blog()`/`restore_current_blog()`
-- **Domain-Based Blog ID Resolution**: Uses `get_blog_id_from_url()` with automatic blog-id-cache for maintainable, readable code (no hardcoded blog IDs)
+- **Dynamic Site Discovery**: Uses `get_sites()` to enumerate network sites with automatic WordPress blog-id-cache for performance
 - **Network-Activated Core**: `extrachill-multisite` provides shared functionality across all sites
 - **Site-Specific Plugins**: Each site has tailored plugin combinations for its purpose
 - **Unified Theme**: Single theme with conditional loading adapts to each site's needs via template override filters
@@ -54,7 +74,7 @@ Enable AI agents to make high-quality, production-safe contributions to the Extr
 composer install && composer test
 
 # Production builds: Run in each plugin/theme directory
-./build.sh  # Creates /build/[project]/ directory and /build/[project].zip file (13 of 14 plugins have build.sh)
+./build.sh  # Creates /build/[project]/ directory and /build/[project].zip file (15 of 16 plugins + 1 theme have build.sh)
 
 # PHP quality checks
 composer run lint:php && composer run lint:fix
@@ -94,7 +114,7 @@ vendor/bin/phpunit --filter TestClassName
   - **extrachill-community**: Procedural patterns with master loader system
   - **extrachill-admin-tools**: Procedural filter-based tool registration
   - **extrachill-blocks**: Procedural automatic block discovery
-- **Network vs Site-Specific**: Network plugins (multisite) vs site-specific installations
+- **Network vs Site-Specific**: Network plugins (multisite, ai-client) vs site-specific installations
 - **Centralized Loading**: Main plugin files load includes in logical order via initialization functions
 - **Filter-Based Registration**: Services register via WordPress filters for extensibility
 - **Security First**: Nonces, capability checks (`ec_can_manage_*()`), prepared statements, `wp_unslash()` before sanitization
@@ -143,7 +163,7 @@ vendor/bin/phpunit --filter TestClassName
 ## 4. Integration Points & Dependencies
 
 ### Cross-Component Communication
-- **Multisite Functions**: Domain-based blog ID resolution via `get_blog_id_from_url()`, `switch_to_blog()`, `restore_current_blog()`
+- **Multisite Functions**: Dynamic site discovery via `get_sites()`, `switch_to_blog()`, `restore_current_blog()`
 - **Avatar Menu Injection**: `ec_avatar_menu_items` filter for plugin-theme integration
 - **Forum Integration**: bbPress hooks and custom forum section overrides
 - **Theme Guards**: `function_exists()`/`class_exists()` for WooCommerce/bbPress dependencies
@@ -279,63 +299,56 @@ add_action('extrachill_navigation_main_menu', 'my_plugin_add_menu_item', 15);
 add_action('extrachill_footer_main_content', 'my_plugin_add_footer_section', 20);
 ```
 
-## 7. Build System Standards
+### Network Architecture Patterns
 
-### Production Packaging
-- **Clean Process**: Remove dev files, install prod dependencies, validate structure
-- **Exclusion Management**: `.buildignore` files control production contents
-- **Version Extraction**: Automatically reads version from plugin/theme headers
-- **ZIP Generation**: Standardized naming in `/dist` directory
+**Direct Cross-Site Data Access**: Theme uses WordPress multisite functions for direct database queries across sites
+```php
+// Dynamic site discovery
+$network_sites = get_sites(array('network_id' => get_current_network_id()));
+foreach ($network_sites as $site) {
+    switch_to_blog($site->blog_id);
 
-### File Exclusions
+// Direct WP_Query for bbPress data
+$query = new WP_Query(array(
+    'post_type' => array('topic', 'reply'),
+    // ... query args
+));
+
+    // Manual URL construction for performance
+    $forum_url = 'https://community.extrachill.com/r/' . get_post_field('post_name', $forum_id);
+
+    restore_current_blog();
+}
 ```
-.git/, node_modules/, vendor/, .claude/, CLAUDE.md, README.md,
-build.sh, package.json, composer.lock, .buildignore, tests/
+
+**Cross-Site Search Integration**: `extrachill_multisite_search()` from extrachill-search plugin
+```php
+if ( function_exists( 'extrachill_multisite_search' ) ) {
+    $results = extrachill_multisite_search( get_search_query() );
+    // Returns combined array with site identification metadata
+}
 ```
 
-## 8. Adding New Features
+**Intelligent User Profile Routing**: `ec_get_user_profile_url()` from extrachill-users plugin
+```php
+if ( function_exists( 'ec_get_user_profile_url' ) ) {
+    $profile_url = ec_get_user_profile_url( $user_id );
+    // Routes to main site author page or bbPress profile based on context
+}
+```
 
-### Network Plugin Features
-1. Add to `extrachill-plugins/extrachill-multisite/inc/core/` for network-wide functionality
-2. Add to `extrachill-plugins/extrachill-multisite/inc/<site>/` for site-specific network features
-3. Use network activation checks and multisite functions
-4. Follow admin access control patterns
+**Performance Optimization**: 10-minute WordPress object cache for community activity
+```php
+$cache_key = 'extrachill_community_activity_' . $limit;
+$activity = wp_cache_get( $cache_key );
+if ( false === $activity ) {
+    // Query community data
+    wp_cache_set( $cache_key, $activity, '', 600 ); // 10 minutes
+}
+```
 
-### Theme Features
-1. Add conditional logic in `extrachill/functions.php`
-2. Create feature files in `extrachill/inc/<area>/`
-3. Enqueue assets with filemtime() versioning
-4. Use narrow page conditions for loading
-5. Extend existing CSS/JS rather than replacing
-
-### JavaScript Features
-1. Create IIFE module in appropriate assets directory
-2. Use CustomEvent for inter-module communication
-3. Follow WordPress AJAX patterns
-4. Localize script with nonces and AJAX URLs
-
-## 9. What NOT To Do
-
-- Don't introduce global asset bundles or inline concatenation
-- Don't assume WooCommerce/bbPress active without guards
-- Don't bypass existing escaping or security patterns
-- Don't add external font/CDN dependencies
-- Don't resurrect removed functionality (check git history)
-- Don't flush rewrite rules automatically in code
-- Don't modify admin access controls without network security review
-
-## 10. PR/Change Documentation
-
-Include in PR descriptions:
-- Feature summary and architectural impact
-- Multisite site impact (which sites affected)
-- Conditional loading review (performance considerations)
-- Taxonomy/CPT changes (note rewrite flush requirement)
-- New hooks/filters introduced
-- Security implications and testing approach
-- Cross-component integration points affected
-- Network activation requirements for new plugins
-
----
-
-*This guidance synthesizes patterns from existing CLAUDE.md files and codebase analysis. Update this file when discovering new patterns or when architectural decisions change.*
+**URL Patterns**:
+- Forums: `https://community.extrachill.com/r/{forum-slug}` (manual construction)
+- Topics: Standard WordPress permalinks via `get_permalink()`
+- Users: `/u/{username}/` (bbPress format) or main site author URLs
+````

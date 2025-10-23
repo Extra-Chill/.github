@@ -2,17 +2,13 @@
 /**
  * extrachill.link Domain Mapping
  *
- * Maps extrachill.link to artist.extrachill.com while preserving
- * extrachill.link URLs in the frontend.
- *
- * This file should be copied to wp-content/sunrise.php on the server.
- *
- * NOTE: Update blog_id below with actual artist.extrachill.com blog ID from WordPress Network Admin
+ * Maps extrachill.link to artist.extrachill.com while preserving extrachill.link URLs in the frontend.
+ * Copy this file to wp-content/sunrise.php on the server.
  */
 
 $extra_domains = [
-    // 'domain' => blog_id
-    'extrachill.link' => 4  // Artist site ID where artist platform plugin resides (artist.extrachill.com)
+    'extrachill.link' => 4,      // artist.extrachill.com
+    'www.extrachill.link' => 4   // artist.extrachill.com (with www)
 ];
 
 // Domain mapping happens FIRST - before any redirects
