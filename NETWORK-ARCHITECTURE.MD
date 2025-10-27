@@ -2,7 +2,7 @@ This document provides an overview of the Extra Chill Platform WordPress multisi
 
 ## Network Architecture
 
-The Extra Chill Platform operates as a **WordPress multisite network** consisting of **eight (8) interconnected sites**:
+The Extra Chill Platform operates as a **WordPress multisite network** consisting of **nine (9) interconnected sites**:
 
 1. **extrachill.com** - Main music journalism and content site
 2. **community.extrachill.com** - Community forums and user authentication hub
@@ -12,6 +12,7 @@ The Extra Chill Platform operates as a **WordPress multisite network** consistin
 6. **app.extrachill.com** - Mobile API backend (planning stage only)
 7. **events.extrachill.com** - Event calendar hub powered by Data Machine
 8. **stream.extrachill.com** - Live streaming platform (Phase 1 non-functional UI)
+9. **newsletter.extrachill.com** - Newsletter operations and Sendy integration hub
 
 ### Blog ID Resolution
 
@@ -24,11 +25,19 @@ All sites use the **extrachill theme** with the **universal template routing sys
 **ExtraChill Multisite** - Network-activated plugin providing centralized multisite functionality across all sites in the network, including:
 - Cross-site data access using `switch_to_blog()` and `restore_current_blog()`
 - Admin access control across network
-- Team members system and Turnstile integration
+- Cloudflare Turnstile integration
 - Ad-free license validation system
 - Unified comment and author management
 - Newsletter bridge function for Sendy integration
-- User avatar menu system
+
+**ExtraChill Users** - Network-activated user management plugin providing:
+- Authentication system (login/register/password reset via Gutenberg blocks)
+- Team member system with manual override support
+- User creation on community.extrachill.com
+- Profile URL resolution (`ec_get_user_profile_url()`)
+- Custom avatar system
+- Network-wide avatar menu
+- Online user tracking across all sites
 
 **ExtraChill Search** - Network-activated universal search plugin providing:
 - Real-time multisite search across all network sites via `extrachill_multisite_search()` function
@@ -38,7 +47,13 @@ All sites use the **extrachill theme** with the **universal template routing sys
 - Cross-site pagination and contextual excerpts
 - Search results template with site badges
 
-**Plugin Architecture**: All Extra Chill plugins use direct `require_once` includes for loading. Composer autoloading exists only for development dependencies (PHPUnit, PHPCS).
+**ExtraChill AI Client** - Network-activated AI provider library providing:
+- Centralized API key management for all AI providers (OpenAI, Anthropic, Google Gemini, Grok, OpenRouter)
+- Network-wide configuration accessible to all plugins across all sites
+- Filter-based architecture for AI requests (`ai_request` filter)
+- Shared library pattern eliminating duplicate API key storage
+
+**Plugin Architecture**: All Extra Chill plugins use direct `require_once` includes for loading. Composer autoloading exists only for development dependencies (PHPUnit, PHPCS) and external libraries (ai-http-client).
 
 ## Site 1: extrachill.com (Main Site)
 
@@ -74,16 +89,14 @@ The **merchandise store** providing e-commerce functionality for the Extra Chill
 
 **Cross-Site Features**: Ad-free license validation accessed by other sites in network using dynamic site discovery
 
-## Site 4: app.extrachill.com (Mobile API)
+## Site 4: artist.extrachill.com (Artist Platform)
 
-**React Native mobile application backend** planned to use community authentication for mobile app integration.
+**Artist profiles and link pages** providing comprehensive artist platform functionality.
 
-**Current Status**: Planning stage only - no implementation exists
+**Site-Specific Plugins**:
+- ExtraChill Artist Platform - Artist profiles, link pages, analytics, subscription system, forum integration
 
-**Planned Plugins**:
-- ExtraChill Mobile API - Currently contains only empty plugin file (1 line) with comprehensive planning documentation
-
-**Architecture Plan**: React Native frontend consuming WordPress Block Data API with native multisite authentication integration
+**Cross-Site Integration**: Integrates with community forums and multisite user authentication
 
 ## Site 5: chat.extrachill.com (AI Chat System)
 
@@ -97,14 +110,16 @@ The **merchandise store** providing e-commerce functionality for the Extra Chill
 
 **Integration**: Uses `extrachill_template_homepage` filter for complete homepage control
 
-## Site 6: artist.extrachill.com (Artist Platform)
+## Site 6: app.extrachill.com (Mobile API)
 
-**Artist profiles and link pages** providing comprehensive artist platform functionality.
+**React Native mobile application backend** planned to use community authentication for mobile app integration.
 
-**Site-Specific Plugins**:
-- ExtraChill Artist Platform - Artist profiles, link pages, analytics, subscription system, forum integration
+**Current Status**: Planning stage only - no implementation exists
 
-**Cross-Site Integration**: Integrates with community forums and multisite user authentication
+**Planned Plugins**:
+- ExtraChill Mobile API - Currently contains only empty plugin file (1 line) with comprehensive planning documentation
+
+**Architecture Plan**: React Native frontend consuming WordPress Block Data API with native multisite authentication integration
 
 ## Site 7: events.extrachill.com (Event Calendar Hub)
 
@@ -118,3 +133,23 @@ The **merchandise store** providing e-commerce functionality for the Extra Chill
 **Calendar Setup**: Uses WordPress static homepage with dm-events calendar block for full event display and filtering
 
 **Integration**: Uses `extrachill_template_homepage` filter for complete homepage control
+
+## Site 8: stream.extrachill.com (Live Streaming Platform)
+
+The **live streaming surface** designed for artist members, currently operating as a Phase 1 non-functional UI while streaming infrastructure is finalized.
+
+**Site-Specific Plugins**:
+- Extra Chill Stream - Homepage template override delivering the streaming dashboard interface
+
+**Current Status**: UI scaffolding in place with roadmap for media ingestion, access control, and artist scheduling workflows
+
+**Integration**: Shares multisite authentication, leverages `extrachill_template_homepage` for layout control, and will consume artist platform data on launch
+
+## Site 9: newsletter.extrachill.com (Newsletter Operations)
+
+The **dedicated newsletter hub** centralizes Sendy-powered email campaign management away from the main site while maintaining multisite authentication.
+
+**Site-Specific Plugins**:
+- Extra Chill Newsletter - Sendy integration, list segmentation, and campaign orchestration for the Extra Chill audience
+
+**Cross-Site Integration**: Receives subscriber data from forms embedded across the network via `extrachill-newsletter` hooks and shares engagement metrics back to the main site dashboards

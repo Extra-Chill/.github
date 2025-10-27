@@ -30,7 +30,7 @@ if (
     if ( $current_blog ) {
         $origin_domain = $current_blog->domain . untrailingslashit( $current_blog->path );
 
-        // Replace community.extrachill.com URLs with extrachill.link in frontend
+        // Replace artist.extrachill.com URLs with extrachill.link in frontend
         add_filter( 'home_url', function( $url ) use ( $mask_domain, $origin_domain ) {
             return str_replace( $origin_domain, $mask_domain, $url );
         } );

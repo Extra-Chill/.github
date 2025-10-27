@@ -16,7 +16,7 @@ Enable AI agents to make high-quality, production-safe contributions to the Extr
 7. **events.extrachill.com**: Event calendar hub powered by Data Machine
 8. **stream.extrachill.com**: Live streaming platform for artist members (Phase 1 non-functional UI)
 
-**Blog ID Resolution**: Dynamic site discovery via `get_sites()` to enumerate all network sites. WordPress automatically caches blog IDs via blog-id-cache for performance.
+**Blog ID Resolution**: Hardcoded blog IDs for performance across all plugins and theme. Only extrachill-search plugin uses `get_sites()` for comprehensive network search discovery.
 
 **Eight-Site Network Structure**:
 1. **extrachill.com** - Main content and journalism
@@ -60,7 +60,7 @@ Enable AI agents to make high-quality, production-safe contributions to the Extr
 
 ### Architectural Principles
 - **WordPress Multisite Native**: Direct database queries via `switch_to_blog()`/`restore_current_blog()`
-- **Dynamic Site Discovery**: Uses `get_sites()` to enumerate network sites with automatic WordPress blog-id-cache for performance
+- **Hardcoded Blog IDs**: All plugins use hardcoded blog IDs for performance (search plugin uses `get_sites()` for comprehensive discovery)
 - **Network-Activated Core**: `extrachill-multisite` provides shared functionality across all sites
 - **Site-Specific Plugins**: Each site has tailored plugin combinations for its purpose
 - **Unified Theme**: Single theme with conditional loading adapts to each site's needs via template override filters
@@ -163,7 +163,7 @@ vendor/bin/phpunit --filter TestClassName
 ## 4. Integration Points & Dependencies
 
 ### Cross-Component Communication
-- **Multisite Functions**: Dynamic site discovery via `get_sites()`, `switch_to_blog()`, `restore_current_blog()`
+- **Multisite Functions**: Hardcoded blog IDs with `switch_to_blog()`, `restore_current_blog()` (search uses `get_sites()` for discovery)
 - **Avatar Menu Injection**: `ec_avatar_menu_items` filter for plugin-theme integration
 - **Forum Integration**: bbPress hooks and custom forum section overrides
 - **Theme Guards**: `function_exists()`/`class_exists()` for WooCommerce/bbPress dependencies
@@ -301,12 +301,11 @@ add_action('extrachill_footer_main_content', 'my_plugin_add_footer_section', 20)
 
 ### Network Architecture Patterns
 
-**Direct Cross-Site Data Access**: Theme uses WordPress multisite functions for direct database queries across sites
+**Direct Cross-Site Data Access**: Theme uses WordPress multisite functions with hardcoded blog IDs
 ```php
-// Dynamic site discovery
-$network_sites = get_sites(array('network_id' => get_current_network_id()));
-foreach ($network_sites as $site) {
-    switch_to_blog($site->blog_id);
+// Hardcoded blog ID for performance
+$community_blog_id = 2; // community.extrachill.com
+switch_to_blog($community_blog_id);
 
 // Direct WP_Query for bbPress data
 $query = new WP_Query(array(
@@ -314,11 +313,10 @@ $query = new WP_Query(array(
     // ... query args
 ));
 
-    // Manual URL construction for performance
-    $forum_url = 'https://community.extrachill.com/r/' . get_post_field('post_name', $forum_id);
+// Manual URL construction for performance
+$forum_url = 'https://community.extrachill.com/r/' . get_post_field('post_name', $forum_id);
 
-    restore_current_blog();
-}
+restore_current_blog();
 ```
 
 **Cross-Site Search Integration**: `extrachill_multisite_search()` from extrachill-search plugin

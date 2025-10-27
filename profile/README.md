@@ -13,9 +13,10 @@ Extra Chill is a music publication and community platform built on WordPress mul
 - **shop.extrachill.com** - E-commerce platform with WooCommerce
 - **artist.extrachill.com** - Artist platform and profiles
 - **chat.extrachill.com** - AI chatbot system with ChatGPT-style interface
+- **app.extrachill.com** - Mobile API backend (planning stage only - no implementation)
 - **events.extrachill.com** - Event calendar hub
 - **stream.extrachill.com** - Live streaming platform (Phase 1 non-functional UI)
-- **app.extrachill.com** - Mobile API backend (planning stage only - no implementation)
+- **newsletter.extrachill.com** - Dedicated newsletter operations and Sendy integration hub
 
 ## Repositories
 
@@ -33,7 +34,6 @@ Extra Chill is a music publication and community platform built on WordPress mul
 - **extrachill-events** - Calendar and event management
 - **extrachill-admin-tools** - Centralized administrative tools
 - **extrachill-blocks** - Custom Gutenberg blocks for community engagement
-- **extrachill-login-register** - Network-wide authentication with Cloudflare Turnstile
 - **extrachill-chat** - AI chatbot system for chat.extrachill.com
 - **extrachill-stream** - Live streaming platform for artist members (Phase 1 non-functional UI)
 
@@ -50,7 +50,7 @@ Extra Chill is a music publication and community platform built on WordPress mul
 - **extrachill** - Main theme for all sites
 
 ### Shared Infrastructure
-- **sunrise.php** - extrachill.link domain mapping to community.extrachill.com
+- **sunrise.php** - extrachill.link domain mapping to artist.extrachill.com (blog ID 4) with cross-domain authentication
 - **.github/build.sh** - Universal build script symlinked into all plugins and theme
 - **CLAUDE.md** - Architectural documentation files in root and individual projects
 
@@ -64,7 +64,7 @@ Extra Chill is a music publication and community platform built on WordPress mul
 
 ## Architecture Overview
 
-**Domain-Based Site Resolution**: All plugins use `get_blog_id_from_url()` for site identification with automatic WordPress blog-id-cache for performance and maintainable code.
+**Hardcoded Blog IDs**: All plugins and theme use hardcoded blog IDs for performance. Only extrachill-search plugin uses `get_sites()` for comprehensive network discovery during search operations.
 
 **Newsletter Integration System**: Three-plugin architecture with centralized `extrachill_multisite_subscribe()` bridge function, zero hardcoded credentials, and filter-based integration registration.
 
