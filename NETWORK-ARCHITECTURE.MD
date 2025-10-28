@@ -16,7 +16,7 @@ The Extra Chill Platform operates as a **WordPress multisite network** consistin
 
 ### Blog ID Resolution
 
-**Dynamic Site Discovery**: Plugins use `get_sites()` to dynamically enumerate all network sites. WordPress automatically caches blog IDs via blog-id-cache for optimal performance.
+**Site Discovery**: Core plugins rely on a centralized hardcoded blog ID map for performance. 
 
 All sites use the **extrachill theme** with the **universal template routing system**. Individual plugins hook into the theme to provide site-specific functionality.
 
