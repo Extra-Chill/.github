@@ -27,21 +27,19 @@ Extra Chill is a music publication and community platform built on WordPress mul
 - **extrachill-users** - Cross-site user management with team member system
 - **extrachill-search** - Universal multisite search across all network sites
 - **extrachill-ai-client** - AI provider library with centralized API key management
+- **extrachill-admin-tools** - Network-wide administrative tooling and 404 logging
 
 **Site-Specific (Production)**
 - **extrachill-artist-platform** - Comprehensive artist profiles and link pages
 - **extrachill-community** - Forum integration and community features
 - **extrachill-events** - Calendar and event management
-- **extrachill-admin-tools** - Centralized administrative tools
 - **extrachill-blocks** - Custom Gutenberg blocks for community engagement
 - **extrachill-chat** - AI chatbot system for chat.extrachill.com
 - **extrachill-stream** - Live streaming platform for artist members (Phase 1 non-functional UI)
-
-**Development Stage**
-- **extrachill-shop** - WooCommerce integration and e-commerce functionality
-- **extrachill-newsletter** - Email campaigns and Sendy subscriptions
-- **extrachill-news-wire** - Festival Wire custom post type
-- **extrachill-contact** - Contact forms and Sendy integration
+- **extrachill-shop** - WooCommerce integration and cross-domain license handling
+- **extrachill-newsletter** - Sendy-powered campaigns and subscriber management
+- **extrachill-news-wire** - Festival Wire custom post type and coverage tools
+- **extrachill-contact** - Contact forms with shared Sendy integration hooks
 
 **Planning Stage**
 - **extrachill-mobile-api** - Mobile app API (empty plugin file - no implementation)
@@ -50,8 +48,7 @@ Extra Chill is a music publication and community platform built on WordPress mul
 - **extrachill** - Main theme for all sites
 
 ### Shared Infrastructure
-- **sunrise.php** - extrachill.link domain mapping to artist.extrachill.com (blog ID 4) with cross-domain authentication
-- **.github/build.sh** - Universal build script symlinked into all plugins and theme
+- **.github/build.sh** - Universal build script symlinked into every production plugin (15 of 16 total) and the theme
 - **CLAUDE.md** - Architectural documentation files in root and individual projects
 
 ## Technology Stack
@@ -68,7 +65,7 @@ Extra Chill is a music publication and community platform built on WordPress mul
 
 **Newsletter Integration System**: Three-plugin architecture with centralized `extrachill_multisite_subscribe()` bridge function, zero hardcoded credentials, and filter-based integration registration.
 
-**Universal Build System**: Shared `.github/build.sh` script symlinked into all 16 implemented plugins and theme for consistent production ZIP generation with automatic project type detection.
+**Universal Build System**: Shared `.github/build.sh` script symlinked into every production plugin (15 of 16 total) and the theme for consistent release packaging with automatic project type detection.
 
 **Template Override System**: Theme uses `template_include` filter with plugin-extensible template routing allowing plugins to control specific site homepages (chat, events, stream).
 
