@@ -36,12 +36,11 @@ if (
         } );
     }
 
-    // Handle only specific redirects AFTER domain mapping is established
+    // Redirect join flow to artist site login with from_join parameter
     if ($request_path === 'join') {
         header('Location: https://artist.extrachill.com/login/?from_join=true', true, 301);
         exit;
     }
 
-    // Let the artist platform plugin handle root domain and /extra-chill routing
-    // via its template_include filter now that domain mapping is active
+    // Artist platform plugin handles root and link page routing via template_include filter
 }
