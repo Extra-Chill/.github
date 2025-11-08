@@ -8,15 +8,15 @@ Extra Chill is a music publication and community platform built on WordPress mul
 
 ### Network Architecture
 
-- **extrachill.com** - Main music publication site
-- **community.extrachill.com** - Community forums and user authentication hub
-- **shop.extrachill.com** - E-commerce platform with WooCommerce
-- **artist.extrachill.com** - Artist platform and profiles
-- **chat.extrachill.com** - AI chatbot system with ChatGPT-style interface
-- **app.extrachill.com** - Mobile API backend (planning stage only - no implementation)
-- **events.extrachill.com** - Event calendar hub
-- **stream.extrachill.com** - Live streaming platform (Phase 1 non-functional UI)
-- **newsletter.extrachill.com** - Dedicated newsletter operations and Sendy integration hub
+- **extrachill.com** - Main music publication site (Blog ID 1)
+- **community.extrachill.com** - Community forums and user authentication hub (Blog ID 2)
+- **shop.extrachill.com** - E-commerce platform with WooCommerce (Blog ID 3)
+- **artist.extrachill.com** - Artist platform and profiles (Blog ID 4)
+- **chat.extrachill.com** - AI chatbot system with ChatGPT-style interface (Blog ID 5)
+- **events.extrachill.com** - Event calendar hub (Blog ID 7)
+- **newsletter.extrachill.com** - Dedicated newsletter operations and Sendy integration hub (Blog ID 8)
+- **stream.extrachill.com** - Live streaming platform (Phase 1 UI) (Blog ID 9)
+- **horoscope.extrachill.com** - Wook-themed daily horoscopes via Data Machine AI (Blog ID 10)
 
 ## Repositories
 
@@ -35,7 +35,8 @@ Extra Chill is a music publication and community platform built on WordPress mul
 - **extrachill-events** - Calendar and event management
 - **extrachill-blocks** - Custom Gutenberg blocks for community engagement
 - **extrachill-chat** - AI chatbot system for chat.extrachill.com
-- **extrachill-stream** - Live streaming platform for artist members (Phase 1 non-functional UI)
+- **extrachill-stream** - Live streaming platform for artist members (Phase 1 UI)
+- **extrachill-horoscopes** - Wook-themed daily horoscopes with AI-generated content via Data Machine
 - **extrachill-shop** - WooCommerce integration and cross-domain license handling
 - **extrachill-newsletter** - Sendy-powered campaigns and subscriber management
 - **extrachill-news-wire** - Festival Wire custom post type and coverage tools

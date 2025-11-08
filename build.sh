@@ -318,13 +318,14 @@ create_production_zip() {
     print_status "Creating production ZIP file..."
 
     local zip_file="build/$PROJECT_NAME.zip"
+    local build_dir="build/$PROJECT_NAME"
 
     # Remove existing ZIP if it exists
     if [ -f "$zip_file" ]; then
         rm -f "$zip_file"
     fi
 
-    # Create ZIP from build directory
+    # Create ZIP from build directory (must be in build dir for correct paths)
     cd build
     zip -r "$PROJECT_NAME.zip" "$PROJECT_NAME/" -q
     cd - > /dev/null
@@ -332,12 +333,15 @@ create_production_zip() {
     # Get file size
     local file_size=$(ls -lh "$zip_file" | awk '{print $5}')
 
-    print_success "Production ZIP created: $zip_file ($file_size)"
-
     # Show contents summary
-    print_status "Archive contents summary:"
     local total_files=$(unzip -l "$zip_file" | tail -1 | awk '{print $2}')
-    echo "Total files: $total_files"
+
+    print_success "Production ZIP created: $zip_file ($file_size, $total_files files)"
+
+    # Clean up intermediate directory now that ZIP is created
+    print_status "Cleaning up intermediate build directory..."
+    rm -rf "$build_dir"
+    print_success "Intermediate directory removed (production files are in ZIP)"
 }
 
 # Main build process
@@ -361,9 +365,8 @@ build_project() {
 
     print_success "Build process completed successfully!"
     print_success "Production package: build/$PROJECT_NAME.zip"
-    print_success "Clean production directory: build/$PROJECT_NAME/"
     echo ""
-    print_status "Both clean directory AND zip file exist in /build/"
+    print_status "Need production files? Simply unzip the archive!"
 }
 
 # Main script execution

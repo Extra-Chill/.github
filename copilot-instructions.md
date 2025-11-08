@@ -10,7 +10,7 @@
 
 ## Workflows
 - Run `composer install && composer test` at repo root before feature work; tooling lives in root `composer.json` and plugin-specific manifests.
-- Each shippable theme/plugin has `./build.sh` (symlink to `.github/build.sh`) which emits `build/<project>/` and a matching zip; run inside the target directory.
+- Each shippable theme/plugin has `./build.sh` (symlink to `.github/build.sh`) which creates `build/<project>.zip` only; run inside the target directory.
 - PHP linting uses `composer run lint:php` and fixer `composer run lint:fix`; targeted PHPUnit via `vendor/bin/phpunit --filter TestName` where suites exist.
 - No JS bundlers; cache-bust assets with `filemtime()` versions (see `extrachill/functions.php` enqueue helpers).
 
