@@ -122,10 +122,10 @@ The **merchandise store** providing e-commerce functionality for the Extra Chill
 
 **Site-Specific Plugins**:
 - Data Machine - Event automation and content pipeline
-- dm-events - Calendar block and event post type
+- datamachine-events - Calendar block and event post type
 - ExtraChill Events - Homepage template override for calendar display
 
-**Calendar Setup**: Uses WordPress static homepage with dm-events calendar block for full event display and filtering
+**Calendar Setup**: Uses WordPress static homepage with datamachine-events calendar block for full event display and filtering
 
 **Integration**: Uses `extrachill_template_homepage` filter for complete homepage control
 
