@@ -14,9 +14,9 @@ Extra Chill is a music publication and community platform built on WordPress mul
 - **artist.extrachill.com** - Artist platform and profiles (Blog ID 4)
 - **chat.extrachill.com** - AI chatbot system with ChatGPT-style interface (Blog ID 5)
 - **events.extrachill.com** - Event calendar hub (Blog ID 7)
-- **newsletter.extrachill.com** - Dedicated newsletter operations and Sendy integration hub (Blog ID 8)
-- **stream.extrachill.com** - Live streaming platform (Phase 1 UI) (Blog ID 9)
-- **horoscope.extrachill.com** - Wook-themed daily horoscopes via Data Machine AI (Blog ID 10)
+- **stream.extrachill.com** - Live streaming platform (Phase 1 UI) (Blog ID 8)
+- **newsletter.extrachill.com** - Newsletter management and archive hub (Blog ID 9)
+- **horoscope.extrachill.com** - Planned site (future Blog ID 10)
 
 ## Repositories
 
@@ -27,6 +27,7 @@ Extra Chill is a music publication and community platform built on WordPress mul
 - **extrachill-users** - Cross-site user management with team member system
 - **extrachill-search** - Universal multisite search across all network sites
 - **extrachill-ai-client** - AI provider library with centralized API key management
+- **extrachill-api** - REST API infrastructure for all custom endpoints
 - **extrachill-admin-tools** - Network-wide administrative tooling and 404 logging
 
 **Site-Specific (Production)**
@@ -36,20 +37,20 @@ Extra Chill is a music publication and community platform built on WordPress mul
 - **extrachill-blocks** - Custom Gutenberg blocks for community engagement
 - **extrachill-chat** - AI chatbot system for chat.extrachill.com
 - **extrachill-stream** - Live streaming platform for artist members (Phase 1 UI)
-- **extrachill-horoscopes** - Wook-themed daily horoscopes with AI-generated content via Data Machine
-- **extrachill-shop** - WooCommerce integration and cross-domain license handling
+- **extrachill-horoscopes** - Planned horoscope experience (site not yet provisioned)
+- **extrachill-shop** - WooCommerce integration and cross-domain license handling (development stage)
 - **extrachill-newsletter** - Sendy-powered campaigns and subscriber management
-- **extrachill-news-wire** - Festival Wire custom post type and coverage tools
-- **extrachill-contact** - Contact forms with shared Sendy integration hooks
+- **extrachill-news-wire** - Festival Wire custom post type and coverage tools (development stage)
+- **extrachill-contact** - Contact forms with shared Sendy integration hooks (development stage)
 
 **Planning Stage**
-- **extrachill-mobile-api** - Mobile app API (empty plugin file - no implementation)
+- **extrachill-app** - React Native mobile app (planning stage only - no implementation)
 
 ### WordPress Themes
 - **extrachill** - Main theme for all sites
 
 ### Shared Infrastructure
-- **.github/build.sh** - Universal build script symlinked into every production plugin (15 of 16 total) and the theme
+- **.github/build.sh** - Universal build script symlinked into all 17 plugins and the theme
 - **CLAUDE.md** - Architectural documentation files in root and individual projects
 
 ## Technology Stack

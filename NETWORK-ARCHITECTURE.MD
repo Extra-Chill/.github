@@ -2,7 +2,7 @@ This document provides an overview of the Extra Chill Platform WordPress multisi
 
 ## Network Architecture
 
-The Extra Chill Platform operates as a **WordPress multisite network** consisting of **eight (8) interconnected sites**:
+The Extra Chill Platform operates as a **WordPress multisite network** consisting of **eight (8) interconnected sites** (Blog ID 6 is unused; horoscope.extrachill.com is planned for Blog ID 10 but not yet provisioned):
 
 1. **extrachill.com** (Blog ID 1) - Main music journalism and content site
 2. **community.extrachill.com** (Blog ID 2) - Community forums and user authentication hub
@@ -10,8 +10,8 @@ The Extra Chill Platform operates as a **WordPress multisite network** consistin
 4. **artist.extrachill.com** (Blog ID 4) - Artist platform and profiles
 5. **chat.extrachill.com** (Blog ID 5) - AI chatbot system with ChatGPT-style interface
 6. **events.extrachill.com** (Blog ID 7) - Event calendar hub powered by Data Machine
-7. **stream.extrachill.com** (Blog ID 9) - Live streaming platform (Phase 1 UI)
-8. **newsletter.extrachill.com** (Blog ID 8) - Newsletter operations and Sendy integration hub
+7. **stream.extrachill.com** (Blog ID 8) - Live streaming platform (Phase 1 UI)
+8. **newsletter.extrachill.com** (Blog ID 9) - Newsletter operations and Sendy integration hub
 
 ### Blog ID Resolution
 
