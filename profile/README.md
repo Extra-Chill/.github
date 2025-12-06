@@ -33,6 +33,7 @@ Extra Chill is a music publication and community platform built on WordPress mul
 **Site-Specific (Production)**
 - **extrachill-artist-platform** - Comprehensive artist profiles and link pages
 - **extrachill-community** - Forum integration and community features
+- **extrachill-blog** - Blog-specific functionality for the main site
 - **extrachill-events** - Calendar and event management
 - **extrachill-blocks** - Custom Gutenberg blocks for community engagement
 - **extrachill-chat** - AI chatbot system for chat.extrachill.com
@@ -50,7 +51,7 @@ Extra Chill is a music publication and community platform built on WordPress mul
 - **extrachill** - Main theme for all sites
 
 ### Shared Infrastructure
-- **.github/build.sh** - Universal build script symlinked into all 17 plugins and the theme
+- **.github/build.sh** - Universal build script symlinked into all 18 plugins and the theme
 - **CLAUDE.md** - Architectural documentation files in root and individual projects
 
 ## Technology Stack
@@ -67,7 +68,7 @@ Extra Chill is a music publication and community platform built on WordPress mul
 
 **Newsletter Integration System**: Three-plugin architecture with centralized `extrachill_multisite_subscribe()` bridge function, zero hardcoded credentials, and filter-based integration registration.
 
-**Universal Build System**: Shared `.github/build.sh` script symlinked into every production plugin (15 of 16 total) and the theme for consistent release packaging with automatic project type detection.
+**Universal Build System**: Shared `.github/build.sh` script symlinked into every production plugin (18 of 18 total) and the theme for consistent release packaging with automatic project type detection.
 
 **Template Override System**: Theme uses `template_include` filter with plugin-extensible template routing allowing plugins to control specific site homepages (chat, events, stream).
 
