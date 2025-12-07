@@ -1,7 +1,7 @@
 # Extra Chill AI Guide
 
 ## Core Architecture
-- Network is an 8-site WordPress multisite (Blog ID 6 unused); blog IDs are hardcoded in core plugins (`extrachill-plugins/extrachill-multisite/extrachill-multisite.php`) and must remain in sync with production. Horoscope site is planned for future Blog ID 10.
+- Network is a 9-site WordPress multisite (Blog ID 6 unused); blog IDs are hardcoded in core plugins (`extrachill-plugins/extrachill-multisite/extrachill-multisite.php`) and must remain in sync with production. docs site at Blog ID 10; horoscope site planned for future Blog ID 11.
 - Single theme `extrachill` serves every site via the template router (`extrachill/inc/core/template-router.php`) and exposes feature hooks instead of bespoke templates.
 - Platform-critical plugins (`extrachill-multisite`, `extrachill-ai-client`, `extrachill-users`) are network-activated; site apps (chat/events/stream/newsletter) layer on through filters and action hooks.
 - `extrachill.link` traffic is routed by `.github/sunrise.php` to blog ID 4 (`artist.extrachill.com`); link pages and rewrites live under `extrachill-plugins/extrachill-artist-platform/inc/core/`.

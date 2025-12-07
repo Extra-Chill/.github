@@ -16,7 +16,8 @@ Extra Chill is a music publication and community platform built on WordPress mul
 - **events.extrachill.com** - Event calendar hub (Blog ID 7)
 - **stream.extrachill.com** - Live streaming platform (Phase 1 UI) (Blog ID 8)
 - **newsletter.extrachill.com** - Newsletter management and archive hub (Blog ID 9)
-- **horoscope.extrachill.com** - Planned site (future Blog ID 10)
+- **docs.extrachill.com** - Documentation hub (Blog ID 10)
+- **horoscope.extrachill.com** - Planned site (future Blog ID 11)
 
 ## Repositories
 
