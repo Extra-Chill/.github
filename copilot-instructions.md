@@ -1,36 +1,15 @@
-# Extra Chill AI Guide
+## Extra Chill Copilot Instructions
 
-## Core Architecture
-- Network is a 9-site WordPress multisite (Blog ID 6 unused); blog IDs are hardcoded in core plugins (`extrachill-plugins/extrachill-multisite/extrachill-multisite.php`) and must remain in sync with production. docs site at Blog ID 10; horoscope site planned for future Blog ID 11.
-- Single theme `extrachill` serves every site via the template router (`extrachill/inc/core/template-router.php`) and exposes feature hooks instead of bespoke templates.
-- Platform-critical plugins (`extrachill-multisite`, `extrachill-ai-client`, `extrachill-users`) are network-activated; site apps (chat/events/stream/newsletter) layer on through filters and action hooks.
-- `extrachill.link` traffic is routed by `.github/sunrise.php` to blog ID 4 (`artist.extrachill.com`); link pages and rewrites live under `extrachill-plugins/extrachill-artist-platform/inc/core/`.
-- React Native work is documentation-only (`extrachill-app/plan.md`); ignore for build considerations.
-- AI/ML definitions in repo are authoritative references—never regenerate or modify them.
-
-## Critical Workflows
-- Before changes: run `composer install && composer test` from repo root to hydrate tooling and execute the global suite.
-- PHP linting/fixing lives in Composer scripts (`composer run lint:php`, `composer run lint:fix`); targeted PHPUnit via `vendor/bin/phpunit --filter TestName` within component directories.
-- Ship-ready packages use the shared `./build.sh` symlink inside each theme/plugin; it creates `build/<project>.zip` only and reinstalls dev deps afterward.
-- No JS bundlers are present—ship plain assets and version enqueues with `filemtime()` (see `extrachill/functions.php`).
-
-## Coding Patterns
-- Load PHP with explicit `require_once` trees; Composer autoloaders exist for dev-only tooling.
-- Naming/layout: snake_case functions, PascalCase classes, camelCase locals, kebab-case files, 4-space indents with same-line braces.
-- Always pair capability helpers (`ec_can_manage_*`) and nonce checks (`wp_verify_nonce`) with context-aware escaping (`esc_html`, `esc_attr`, `esc_url`).
-- Multisite access must wrap `switch_to_blog()`/`restore_current_blog()` in try/finally blocks and rely on known blog IDs; only `extrachill-search` enumerates sites dynamically.
-- Cache busting and conditional loading are mandatory: enqueue CSS/JS only where needed and version via `filemtime()`.
-
-## Integration Points
-- Extend UI through documented hooks (`extrachill_homepage_hero`, `extrachill_navigation_main_menu`, `extrachill_footer_main_content`) instead of creating new templates.
-- Reuse centralized helpers such as `ec_get_link_page_data()` and `extrachill_multisite_search()` before crafting new queries.
-- Guard optional integrations: bbPress checks `class_exists('bbPress')`, WooCommerce checks `function_exists('WC')`, and cross-plugin calls require `function_exists` checks.
-- Cross-domain URLs are handcrafted (see `extrachill/inc/header/community-cta.php`); follow established slug patterns like `/r/{forum}` and `/u/{user}`.
-
-## Gotchas & References
-- Network plugins impact every site; coordinate changes in `extrachill-multisite` and `extrachill-users` with thorough multisite testing.
-- `extrachill-community` ships without a build step—format PHP/JS manually.
-- Community caches (10-minute `wp_cache_set`) need purging when query shapes change.
-- Always review relevant CLAUDE/agent docs (`AGENTS.md`, component `CLAUDE.md`) before edits and keep inline docs current.
-- Missing data should fail loudly—do not introduce permissive fallbacks.
+- **Architecture**: 9-site multisite (IDs: 1 main, 2 community, 3 shop, 4 artist/extrachill.link, 5 chat, 7 events, 8 stream, 9 newsletter, 10 docs; 6 unused, 11 planned). One theme `extrachill` drives all sites via `extrachill/inc/core/template-router.php`; do not change IDs or AI models. `extrachill.link` maps to blog 4 via `.github/sunrise.php`; link routing lives in artist-platform `inc/core/artist-platform-rewrite-rules.php`.
+- **Key components**: Network core plugins (multisite, users, ai-client, api, search, newsletter) are always on; site apps (artist-platform, community, blog, blocks, chat, stream, events, horoscopes, admin-tools, contact, shop, news-wire) load per site. `extrachill-users` is the single source of truth for auth/user + artist relationships; `extrachill-search` is the only plugin that enumerates sites dynamically.
+- **Workflows**: From repo root run `composer install && composer test`; lint with `composer run lint:php` (fix via `lint:fix`). Each component uses the same commands. Release builds use each component’s `./build.sh` (symlink to `/.github/build.sh`) → outputs `build/<name>.zip` then restores dev deps. `extrachill-blocks` adds `npm run build`/`npm run start` for block assets before `./build.sh`.
+- **Coding patterns**: Explicit `require_once` trees (no runtime PSR-4), 4-space indents, same-line braces, snake_case functions, PascalCase classes, camelCase locals, kebab-case files. Prefer hooks/filters over template copies (e.g., `extrachill_homepage_hero`, `extrachill_navigation_main_menu`, `extrachill_template_*`, `ec_avatar_menu_items`).
+- **Security**: Pair capability helpers (e.g., `ec_can_manage_*`) with nonces; sanitize with `wp_unslash()` + context sanitizers; escape with `esc_html/attr/url`; prepare SQL; bail loudly—no permissive fallbacks or dual data contracts.
+- **Multisite discipline**: Hardcode blog IDs, wrap `switch_to_blog()`/`restore_current_blog()` in try/finally, and lean on shared helpers (`ec_get_artists_for_user`, `extrachill_multisite_search`, `extrachill_multisite_subscribe`). Cross-domain auth cookies and avatar menu logic live in `extrachill-users`; extrachill.link canonical URLs must be preserved.
+- **Theme + assets**: Root CSS variables live in `extrachill/assets/css/root.css`; any new styles depend on handle `extrachill-root`. Assets stay unbundled (except block builds), enqueued conditionally with `filemtime()` versioning. No inline styles/scripts, no `!important`, no external font/CDN additions.
+- **Data/contracts**: Use canonical data functions (`ec_get_link_page_data`, `ec_get_artist_profile_data`, newsletter integration filters) instead of duplicating logic. Avoid placeholder fallbacks; missing data should error rather than silently guess.
+- **Integrations**: Artist link pages render at extrachill.link with public template `inc/link-pages/live/templates/extrch-link-page-template.php` and CORS edit-button flow; join flow hooks into `extrachill_below_login_register_form`. Newsletter plugin is network-configured (Sendy creds + list IDs from settings, never hardcoded).
+- **Template routing**: Theme’s template router and plugin filters override templates; respect hook-based overrides before adding files. Search results template comes from extrachill-search; artist homepage override via artist-platform hooks.
+- **Testing/build tasks**: VS Code tasks exist for per-component build/test; prefer tasks when available. Community plugin has no build step—format PHP/JS manually.
+- **Documentation**: Component `AGENTS.md`/`CLAUDE.md` are authoritative for specifics; consult the relevant file before editing. `docs/CHANGELOG.md` is the changelog source; do not bump versions unless explicitly instructed.
 ````

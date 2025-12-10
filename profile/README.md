@@ -29,7 +29,7 @@ Extra Chill is a music publication and community platform built on WordPress mul
 - **extrachill-search** - Universal multisite search across all network sites
 - **extrachill-ai-client** - AI provider library with centralized API key management
 - **extrachill-api** - REST API infrastructure for all custom endpoints
-- **extrachill-admin-tools** - Network-wide administrative tooling and 404 logging
+- **extrachill-newsletter** - Network-wide newsletter system with Sendy integration
 
 **Site-Specific (Production)**
 - **extrachill-artist-platform** - Comprehensive artist profiles and link pages
@@ -39,11 +39,12 @@ Extra Chill is a music publication and community platform built on WordPress mul
 - **extrachill-blocks** - Custom Gutenberg blocks for community engagement
 - **extrachill-chat** - AI chatbot system for chat.extrachill.com
 - **extrachill-stream** - Live streaming platform for artist members (Phase 1 UI)
-- **extrachill-horoscopes** - Planned horoscope experience (site not yet provisioned)
+- **extrachill-admin-tools** - Centralized administrative tools for platform management
+- **extrachill-docs** - Documentation hub for docs.extrachill.com
+- **extrachill-horoscopes** - Wook-themed horoscopes (site not yet provisioned)
 - **extrachill-shop** - WooCommerce integration and cross-domain license handling (development stage)
-- **extrachill-newsletter** - Sendy-powered campaigns and subscriber management
 - **extrachill-news-wire** - Festival Wire custom post type and coverage tools (development stage)
-- **extrachill-contact** - Contact forms with shared Sendy integration hooks (development stage)
+- **extrachill-contact** - Contact forms with Sendy integration hooks (development stage)
 
 **Planning Stage**
 - **extrachill-app** - React Native mobile app (planning stage only - no implementation)

@@ -59,6 +59,13 @@ All sites use the **extrachill theme** with the **universal template routing sys
 - Current endpoints: user search, image voting, trivia logging, AI adventure generation
 - Migration target for legacy admin-ajax.php handlers across platform
 
+**ExtraChill Newsletter** - Network-activated newsletter system providing:
+- Sendy integration for email campaign management
+- Subscription forms available network-wide via hook integrations
+- Newsletter custom post type and admin UI (newsletter.extrachill.com only)
+- Network-wide settings stored in `get_site_option('extrachill_newsletter_settings')`
+- Conditional loading based on site context
+
 **Plugin Architecture**: All Extra Chill plugins use direct `require_once` includes for loading. Composer autoloading exists only for development dependencies (PHPUnit, PHPCS) and external libraries (ai-http-client).
 
 ## Site 1: extrachill.com (Main Site)
@@ -66,10 +73,12 @@ All sites use the **extrachill theme** with the **universal template routing sys
 The **main site** in the multisite network serving as the foundational blog and informational music website. Hosts music journalism, festival coverage, and general content.
 
 **Site-Specific Plugins**:
-- ExtraChill Newsletter - Email campaign management with Sendy integration
 - ExtraChill Contact - Contact form system with newsletter integration
 - ExtraChill Events - Calendar and event management
 - ExtraChill News Wire - Festival Wire custom post type for music coverage
+- ExtraChill Blog - Blog-specific functionality for the main site
+
+**Network Plugin Integration**: ExtraChill Newsletter (network-activated) provides subscription forms via hook integrations
 
 **Excluded Plugins**: WooCommerce, bbPress (handled by other sites in network)
 
