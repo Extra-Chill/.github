@@ -167,23 +167,28 @@ restore_dev_deps() {
     fi
 }
 
-# Build Gutenberg blocks if using @wordpress/scripts
-build_gutenberg_blocks() {
-    print_status "Checking for Gutenberg block build requirements..."
+# Build frontend assets (Gutenberg blocks via @wordpress/scripts, or Vite)
+build_frontend_assets() {
+    print_status "Checking for frontend build requirements..."
 
     # Check if package.json exists
     if [ ! -f "package.json" ]; then
-        print_status "No package.json found, skipping block build"
+        print_status "No package.json found, skipping frontend build"
         return 0
     fi
 
-    # Check if @wordpress/scripts is in package.json
-    if ! grep -q "@wordpress/scripts" "package.json"; then
-        print_status "No @wordpress/scripts found, skipping block build"
+    # Determine build tool
+    local build_tool=""
+    if grep -q "@wordpress/scripts" "package.json"; then
+        build_tool="wordpress-scripts"
+        print_status "Detected @wordpress/scripts build tool"
+    elif grep -q '"vite"' "package.json"; then
+        build_tool="vite"
+        print_status "Detected Vite build tool"
+    else
+        print_status "No recognized build tool found, skipping frontend build"
         return 0
     fi
-
-    print_status "Building Gutenberg blocks with @wordpress/scripts..."
 
     # Check if node_modules exists, install if missing
     if [ ! -d "node_modules" ]; then
@@ -192,13 +197,13 @@ build_gutenberg_blocks() {
     fi
 
     # Run the build command
-    print_status "Compiling blocks..."
+    print_status "Building frontend assets..."
     npm run build --quiet 2>&1
 
     if [ $? -eq 0 ]; then
-        print_success "Gutenberg blocks built successfully"
+        print_success "Frontend assets built successfully ($build_tool)"
     else
-        print_error "Block build failed"
+        print_error "Frontend build failed"
         exit 1
     fi
 }
@@ -351,7 +356,7 @@ build_project() {
 
     clean_previous_builds
     install_production_deps
-    build_gutenberg_blocks
+    build_frontend_assets
     copy_project_files
 
     if ! validate_build; then
