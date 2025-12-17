@@ -30,21 +30,22 @@ Extra Chill is a music publication and community platform built on WordPress mul
 - **extrachill-ai-client** - AI provider library with centralized API key management
 - **extrachill-api** - REST API infrastructure for all custom endpoints
 - **extrachill-newsletter** - Network-wide newsletter system with Sendy integration
+- **extrachill-admin-tools** - Centralized administrative tools for platform management
+- **extrachill-dev** - Development tools and debugging utilities
 
 **Site-Specific (Production)**
 - **extrachill-artist-platform** - Comprehensive artist profiles and link pages
 - **extrachill-community** - Forum integration and community features
 - **extrachill-blog** - Blog-specific functionality for the main site
 - **extrachill-events** - Calendar and event management
-- **extrachill-blocks** - Custom Gutenberg blocks for community engagement
 - **extrachill-chat** - AI chatbot system for chat.extrachill.com
 - **extrachill-stream** - Live streaming platform for artist members (Phase 1 UI)
-- **extrachill-admin-tools** - Centralized administrative tools for platform management
 - **extrachill-docs** - Documentation hub for docs.extrachill.com
 - **extrachill-horoscopes** - Wook-themed horoscopes (site not yet provisioned)
-- **extrachill-shop** - WooCommerce integration and cross-domain license handling (development stage)
-- **extrachill-news-wire** - Festival Wire custom post type and coverage tools (development stage)
-- **extrachill-contact** - Contact forms with Sendy integration hooks (development stage)
+- **extrachill-shop** - WooCommerce integration and cross-domain license handling
+- **extrachill-news-wire** - Festival Wire custom post type and coverage tools
+- **extrachill-contact** - Contact forms with Sendy integration hooks
+- **blocks-everywhere** - Forked from Automattic/blocks-everywhere, enables Gutenberg blocks in bbPress in the Extra Chill Community
 
 **Planning Stage**
 - **extrachill-app** - React Native mobile app (planning stage only - no implementation)
@@ -52,9 +53,12 @@ Extra Chill is a music publication and community platform built on WordPress mul
 ### WordPress Themes
 - **extrachill** - Main theme for all sites
 
+### Infrastructure & Dependencies
+- **isolated-block-editor** - Forked from Automattic/isolated-block-editor, standalone Gutenberg editor that replaces any textarea with full block editor functionality, used by blocks-everywhere and other components
+
 ### Shared Infrastructure
-- **.github/build.sh** - Universal build script symlinked into all 18 plugins and the theme
-- **CLAUDE.md** - Architectural documentation files in root and individual projects
+- **.github/build.sh** - Universal build script symlinked into all 21 plugins and the theme
+- **AGENTS.md** - Architectural documentation files in root and individual projects
 
 ## Technology Stack
 
@@ -66,17 +70,17 @@ Extra Chill is a music publication and community platform built on WordPress mul
 
 ## Architecture Overview
 
-**Hardcoded Blog IDs**: All plugins and theme use hardcoded blog IDs for performance. Only extrachill-search plugin uses `get_sites()` for comprehensive network discovery during search operations.
+**Hardcoded Blog IDs**: All plugins and theme use hardcoded blog IDs for performance.
 
-**Newsletter Integration System**: Three-plugin architecture with centralized `extrachill_multisite_subscribe()` bridge function, zero hardcoded credentials, and filter-based integration registration.
+**Newsletter Integration System**: Five-plugin architecture with centralized `extrachill_multisite_subscribe()` bridge function in extrachill-newsletter plugin.
 
-**Universal Build System**: Shared `.github/build.sh` script symlinked into every production plugin (18 of 18 total) and the theme for consistent release packaging with automatic project type detection.
+**Universal Build System**: Shared `.github/build.sh` script symlinked into every production plugin (21 of 21 total) and the theme for consistent release packaging with automatic project type detection.
 
 **Template Override System**: Theme uses `template_include` filter with plugin-extensible template routing allowing plugins to control specific site homepages (chat, events, stream).
 
 ## Getting Started
 
-Each repository contains its own `CLAUDE.md` file with project-specific development guidance. See the organization's shared `CLAUDE.md` for cross-repository standards.
+Each repository contains its own `AGENTS.md` file with project-specific development guidance. See the organization's shared `AGENTS.md` for cross-repository standards.
 
 ## Built by
 
