@@ -56,8 +56,8 @@ All sites use the **extrachill theme** with the **universal template routing sys
 **ExtraChill API** - Network-activated REST API infrastructure providing:
 - Centralized REST endpoint management under `extrachill/v1` namespace
 - Automatic route discovery via RecursiveIteratorIterator from `inc/routes/` directory
-- Current endpoints: user search, image voting, trivia logging, AI adventure generation
-- Migration target for legacy admin-ajax.php handlers across platform
+- 50+ endpoints across 15 categories (auth, artists, analytics, shop, community, blog, chat, events, newsletter, docs, admin, activity, media, stream, tools)
+- All plugins consume API endpoints for cross-platform data sharing and functionality
 
 **ExtraChill Newsletter** - Network-activated newsletter system providing:
 - Sendy integration for email campaign management
@@ -87,8 +87,8 @@ The **main site** in the multisite network serving as the foundational blog and 
 The **community hub** where users register and join to interact across the entire multisite network. Serves as the central authentication point for network-wide user accounts.
 
 **Site-Specific Plugins**:
-- ExtraChill Community - Community platform with forum functionality and theme integration
-- ExtraChill Artist Platform - Comprehensive artist profiles, link pages, analytics, and forum integration
+- ExtraChill Community - Community platform with forum functionality and theme integration (consumes community API endpoints for upvoting, drafts, user search)
+- ExtraChill Artist Platform - Comprehensive artist profiles, link pages, analytics, and forum integration (consumes artists, analytics, shop API endpoints)
 - ExtraChill Blocks - Custom Gutenberg blocks for community engagement (trivia, voting, name generators)
 - bbPress - Forum software for community discussions
 
@@ -99,7 +99,7 @@ The **community hub** where users register and join to interact across the entir
 The **merchandise store** providing e-commerce functionality for the Extra Chill Platform with WooCommerce integration.
 
 **Site-Specific Plugins**:
-- ExtraChill Shop - WooCommerce integration with cross-domain ad-free license system
+- ExtraChill Shop - WooCommerce integration with cross-domain ad-free license system (consumes shop API endpoints for products, Stripe Connect, webhooks)
 - WooCommerce - E-commerce platform for merchandise sales
 
 **Cross-Site Features**: Ad-free license validation accessed by other sites in network using dynamic site discovery
@@ -111,14 +111,14 @@ The **merchandise store** providing e-commerce functionality for the Extra Chill
 **Site-Specific Plugins**:
 - ExtraChill Artist Platform - Artist profiles, link pages, analytics, subscription system, forum integration
 
-**Cross-Site Integration**: Integrates with community forums and multisite user authentication
+**Cross-Site Integration**: Integrates with community forums and multisite user authentication, consumes artists, analytics, and shop API endpoints
 
 ## Site 5: chat.extrachill.com (AI Chat System)
 
 **AI chatbot interface** providing ChatGPT-style conversational AI for logged-in users across the multisite network.
 
 **Site-Specific Plugins**:
-- ExtraChill Chat - Homepage template override providing AI chatbot interface
+- ExtraChill Chat - Homepage template override providing AI chatbot interface (consumes chat API endpoints for message history, conversation management)
 - ExtraChill AI Client - Network-activated AI provider integration (shared across all sites)
 
 **Authentication**: WordPress multisite native authentication - any logged-in user from any network site can access chat
@@ -148,7 +148,7 @@ The **live streaming surface** designed for artist members, currently operating 
 
 **Current Status**: UI scaffolding in place with roadmap for media ingestion, access control, and artist scheduling workflows
 
-**Integration**: Shares multisite authentication, leverages `extrachill_template_homepage` for layout control, and will consume artist platform data on launch
+**Integration**: Shares multisite authentication, leverages `extrachill_template_homepage` for layout control, and will consume artist platform data and stream API endpoints on launch
 
 ## Site 8: newsletter.extrachill.com (Newsletter Operations)
 
@@ -158,3 +158,28 @@ The **dedicated newsletter hub** centralizes Sendy-powered email campaign manage
 - Extra Chill Newsletter - Sendy integration, list segmentation, and campaign orchestration for the Extra Chill audience
 
 **Cross-Site Integration**: Receives subscriber data from forms embedded across the network via `extrachill-newsletter` hooks and shares engagement metrics back to the main site dashboards
+
+## API Integration Architecture
+
+The **Extra Chill API** serves as the central nervous system for plugin interconnectivity across the multisite network, enabling seamless data flow and cross-platform functionality.
+
+### API-Driven Plugin Communication
+
+All site-activated plugins consume REST API endpoints provided by the network-activated `extrachill-api` plugin, creating a loosely-coupled architecture where plugins can function independently while sharing data when available.
+
+### Key Integration Patterns
+
+- **Artist Platform** ↔ **Shop**: Subscription data drives product recommendations and discount eligibility
+- **Community** ↔ **Artist Platform**: Forum discussions enhance artist profiles and engagement tracking
+- **Users** ↔ **Analytics**: User behavior informs personalized content across all sites
+- **Shop** ↔ **Analytics**: Purchase patterns generate product recommendations and loyalty rewards
+- **Newsletter** ↔ **Users**: Subscription status and preferences sync across user profiles
+- **Chat** ↔ **AI Client**: Conversational AI powered by centralized AI provider management
+
+### Data Flow Architecture
+
+The API ecosystem enables real-time data synchronization across sites while maintaining performance through:
+- Function existence checks for graceful degradation
+- Circuit breaker patterns for fault tolerance
+- Comprehensive error handling and logging
+- Standardized authentication and permission systems
