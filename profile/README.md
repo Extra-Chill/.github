@@ -17,7 +17,8 @@ Extra Chill is a music publication and community platform built on WordPress mul
 - **stream.extrachill.com** - Live streaming platform (Phase 1 UI) (Blog ID 8)
 - **newsletter.extrachill.com** - Newsletter management and archive hub (Blog ID 9)
 - **docs.extrachill.com** - Documentation hub (Blog ID 10)
-- **horoscope.extrachill.com** - Planned site (future Blog ID 11)
+- **wire.extrachill.com** - Automated news feeds directory (Blog ID 11)
+- **horoscope.extrachill.com** - Planned site (future Blog ID 12)
 
 ## Repositories
 
@@ -47,8 +48,8 @@ Extra Chill is a music publication and community platform built on WordPress mul
 - **extrachill-contact** - Contact forms with Sendy integration hooks
 - **blocks-everywhere** - Forked from Automattic/blocks-everywhere, enables Gutenberg blocks in bbPress in the Extra Chill Community
 
-**Planning Stage**
-- **extrachill-app** - React Native mobile app (planning stage only - no implementation)
+**Mobile App**
+- **extrachill-app** - React Native app (Expo) for the platform
 
 ### WordPress Themes
 - **extrachill** - Main theme for all sites

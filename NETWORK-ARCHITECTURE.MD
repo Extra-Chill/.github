@@ -2,7 +2,7 @@ This document provides an overview of the Extra Chill Platform WordPress multisi
 
 ## Network Architecture
 
-The Extra Chill Platform operates as a **WordPress multisite network** consisting of **nine (9) interconnected sites** (Blog ID 6 is unused; docs.extrachill.com at Blog ID 10; horoscope.extrachill.com planned for Blog ID 11 but not yet provisioned):
+The Extra Chill Platform operates as a **WordPress multisite network** consisting of **nine (9) interconnected sites** (Blog ID 6 is unused; docs.extrachill.com at Blog ID 10; wire.extrachill.com at Blog ID 11; horoscope.extrachill.com planned for Blog ID 12 but not yet provisioned):
 
 1. **extrachill.com** (Blog ID 1) - Main music journalism and content site
 2. **community.extrachill.com** (Blog ID 2) - Community forums and user authentication hub
@@ -13,6 +13,7 @@ The Extra Chill Platform operates as a **WordPress multisite network** consistin
 7. **stream.extrachill.com** (Blog ID 8) - Live streaming platform (Phase 1 UI)
 8. **newsletter.extrachill.com** (Blog ID 9) - Newsletter operations and Sendy integration hub
 9. **docs.extrachill.com** (Blog ID 10) - Documentation hub
+10. **wire.extrachill.com** (Blog ID 11) - Automated news feeds directory
 
 ### Blog ID Resolution
 
@@ -56,7 +57,7 @@ All sites use the **extrachill theme** with the **universal template routing sys
 **ExtraChill API** - Network-activated REST API infrastructure providing:
 - Centralized REST endpoint management under `extrachill/v1` namespace
 - Automatic route discovery via RecursiveIteratorIterator from `inc/routes/` directory
-- 50+ endpoints across 15 categories (auth, artists, analytics, shop, community, blog, chat, events, newsletter, docs, admin, activity, media, stream, tools)
+- 60+ endpoints across 19 categories (activity, admin, analytics, artists, auth, blog, chat, community, config, contact, docs, events, media, newsletter, seo, shop, stream, tools, users)
 - All plugins consume API endpoints for cross-platform data sharing and functionality
 
 **ExtraChill Newsletter** - Network-activated newsletter system providing:
