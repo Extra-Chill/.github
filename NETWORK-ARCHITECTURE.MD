@@ -2,7 +2,7 @@ This document provides an overview of the Extra Chill Platform WordPress multisi
 
 ## Network Architecture
 
-The Extra Chill Platform operates as a **WordPress multisite network** consisting of **nine (9) interconnected sites** (Blog ID 6 is unused; docs.extrachill.com at Blog ID 10; wire.extrachill.com at Blog ID 11; horoscope.extrachill.com planned for Blog ID 12 but not yet provisioned):
+The Extra Chill Platform operates as a **WordPress multisite network** consisting of **ten (10) interconnected sites** (Blog ID 6 is unused; horoscope.extrachill.com planned for Blog ID 12 but not yet provisioned):
 
 1. **extrachill.com** (Blog ID 1) - Main music journalism and content site
 2. **community.extrachill.com** (Blog ID 2) - Community forums and user authentication hub
@@ -124,7 +124,7 @@ The **merchandise store** providing e-commerce functionality for the Extra Chill
 
 **Authentication**: WordPress multisite native authentication - any logged-in user from any network site can access chat
 
-**Integration**: Uses `extrachill_template_homepage` filter for complete homepage control
+**Integration**: Uses `extrachill_homepage_content` action hook for homepage content injection
 
 
 ## Site 6: events.extrachill.com (Event Calendar Hub)
@@ -138,7 +138,7 @@ The **merchandise store** providing e-commerce functionality for the Extra Chill
 
 **Calendar Setup**: Uses WordPress static homepage with datamachine-events calendar block for full event display and filtering
 
-**Integration**: Uses `extrachill_template_homepage` filter for complete homepage control
+**Integration**: Uses `extrachill_homepage_content` action hook for homepage content injection
 
 ## Site 7: stream.extrachill.com (Live Streaming Platform)
 
@@ -149,7 +149,7 @@ The **live streaming surface** designed for artist members, currently operating 
 
 **Current Status**: UI scaffolding in place with roadmap for media ingestion, access control, and artist scheduling workflows
 
-**Integration**: Shares multisite authentication, leverages `extrachill_template_homepage` for layout control, and will consume artist platform data and stream API endpoints on launch
+**Integration**: Shares multisite authentication, uses `extrachill_homepage_content` action hook for homepage content injection, and will consume artist platform data and stream API endpoints on launch
 
 ## Site 8: newsletter.extrachill.com (Newsletter Operations)
 

@@ -43,10 +43,13 @@ Extra Chill is a music publication and community platform built on WordPress mul
 - **extrachill-stream** - Live streaming platform for artist members (Phase 1 UI)
 - **extrachill-docs** - Documentation hub for docs.extrachill.com
 - **extrachill-horoscopes** - Wook-themed horoscopes (site not yet provisioned)
+- **extrachill-seo** - SEO management and multisite audit tools
 - **extrachill-shop** - WooCommerce integration and cross-domain license handling
 - **extrachill-news-wire** - Festival Wire custom post type and coverage tools
 - **extrachill-contact** - Contact forms with Sendy integration hooks
-- **blocks-everywhere** - Forked from Automattic/blocks-everywhere, enables Gutenberg blocks in bbPress in the Extra Chill Community
+
+**Forked Dependencies**
+- **blocks-everywhere** - Forked from Automattic/blocks-everywhere, enables Gutenberg blocks in bbPress
 
 **Mobile App**
 - **extrachill-app** - React Native app (Expo) for the platform
@@ -58,7 +61,7 @@ Extra Chill is a music publication and community platform built on WordPress mul
 - **isolated-block-editor** - Forked from Automattic/isolated-block-editor, standalone Gutenberg editor that replaces any textarea with full block editor functionality, used by blocks-everywhere and other components
 
 ### Shared Infrastructure
-- **.github/build.sh** - Universal build script symlinked into all 21 plugins and the theme
+- **.github/build.sh** - Universal build script symlinked into all 19 core plugins, 2 forked dependencies, and the theme
 - **AGENTS.md** - Architectural documentation files in root and individual projects
 
 ## Technology Stack
@@ -67,7 +70,7 @@ Extra Chill is a music publication and community platform built on WordPress mul
 - **PHP** - Procedural WordPress patterns with direct includes (`require_once`)
 - **JavaScript** - Event-driven frontend interactions via CustomEvent system
 - **Composer** - Development dependencies and external libraries (ai-http-client)
-- **React Native** - Mobile app (planning stage only - no implementation)
+- **React Native** - Mobile app (Expo/TypeScript)
 
 ## Architecture Overview
 
@@ -75,7 +78,7 @@ Extra Chill is a music publication and community platform built on WordPress mul
 
 **Newsletter Integration System**: Five-plugin architecture with centralized `extrachill_multisite_subscribe()` bridge function in extrachill-newsletter plugin.
 
-**Universal Build System**: Shared `.github/build.sh` script symlinked into every production plugin (21 of 21 total) and the theme for consistent release packaging with automatic project type detection.
+**Universal Build System**: Shared `.github/build.sh` script symlinked into all 19 core plugins, 2 forked dependencies, and the theme for consistent release packaging with automatic project type detection.
 
 **Template Override System**: Theme uses `template_include` filter with plugin-extensible template routing allowing plugins to control specific site homepages (chat, events, stream).
 
