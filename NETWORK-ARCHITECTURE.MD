@@ -17,7 +17,7 @@ The Extra Chill Platform operates as a **WordPress multisite network** consistin
 
 ### Blog ID Resolution
 
-**Site Discovery**: Core plugins rely on a centralized hardcoded blog ID map for performance. 
+Core plugins rely on a centralized canonical blog ID map for performance and consistency.
 
 All sites use the **extrachill theme** with the **universal template routing system**. Individual plugins hook into the theme to provide site-specific functionality.
 
@@ -88,7 +88,7 @@ The **main site** in the multisite network serving as the foundational blog and 
 The **community hub** where users register and join to interact across the entire multisite network. Serves as the central authentication point for network-wide user accounts.
 
 **Site-Specific Plugins**:
-- ExtraChill Community - Community platform with forum functionality and theme integration (consumes community API endpoints for upvoting, drafts, user search)
+- ExtraChill Community - Community platform with forum functionality and theme integration (consumes community API endpoints for upvoting and drafts)
 - ExtraChill Artist Platform - Comprehensive artist profiles, link pages, analytics, and forum integration (consumes artists, analytics, shop API endpoints)
 - ExtraChill Blocks - Custom Gutenberg blocks for community engagement (trivia, voting, name generators)
 - bbPress - Forum software for community discussions
@@ -103,7 +103,7 @@ The **merchandise store** providing e-commerce functionality for the Extra Chill
 - ExtraChill Shop - WooCommerce integration with cross-domain ad-free license system (consumes shop API endpoints for products, Stripe Connect, webhooks)
 - WooCommerce - E-commerce platform for merchandise sales
 
-**Cross-Site Features**: Ad-free license validation accessed by other sites in network using dynamic site discovery
+**Cross-Site Features**: Ad-free license validation is accessed by other sites in the network.
 
 ## Site 4: artist.extrachill.com (Artist Platform)
 
@@ -166,7 +166,7 @@ The **Extra Chill API** serves as the central nervous system for plugin intercon
 
 ### API-Driven Plugin Communication
 
-All site-activated plugins consume REST API endpoints provided by the network-activated `extrachill-api` plugin, creating a loosely-coupled architecture where plugins can function independently while sharing data when available.
+Site-activated plugins consume REST API endpoints provided by the network-activated `extrachill-api` plugin, creating a loosely-coupled architecture where plugins can function independently while sharing data when available.
 
 ### Key Integration Patterns
 
