@@ -2,7 +2,7 @@ This document provides an overview of the Extra Chill Platform WordPress multisi
 
 ## Network Architecture
 
-The Extra Chill Platform operates as a **WordPress multisite network** consisting of **ten (10) interconnected sites** (Blog ID 6 is unused; horoscope.extrachill.com planned for Blog ID 12 but not yet provisioned):
+The Extra Chill Platform operates as a **WordPress multisite network** consisting of **eleven (11) interconnected sites** (Blog ID 6 is unused):
 
 1. **extrachill.com** (Blog ID 1) - Main music journalism and content site
 2. **community.extrachill.com** (Blog ID 2) - Community forums and user authentication hub
@@ -14,6 +14,7 @@ The Extra Chill Platform operates as a **WordPress multisite network** consistin
 8. **newsletter.extrachill.com** (Blog ID 9) - Newsletter operations and Sendy integration hub
 9. **docs.extrachill.com** (Blog ID 10) - Documentation hub
 10. **wire.extrachill.com** (Blog ID 11) - Automated news feeds directory
+11. **horoscope.extrachill.com** (Blog ID 12) - Horoscope functionality
 
 ### Blog ID Resolution
 
@@ -67,6 +68,24 @@ All sites use the **extrachill theme** with the **universal template routing sys
 - Network-wide settings stored in `get_site_option('extrachill_newsletter_settings')`
 - Conditional loading based on site context
 
+**ExtraChill Admin Tools** - Network-activated administrative tools providing:
+- Platform management utilities
+- Migration tools for content between sites
+- Admin dashboard enhancements
+
+**ExtraChill Analytics** - Network-activated analytics tracking providing:
+- Unified event tracking system for key business metrics (newsletter signups, user registrations, page views)
+- Asynchronous view counting via `navigator.sendBeacon()`
+- Consumes extrachill-api endpoints for data persistence
+- Admin dashboard analytics display
+
+**ExtraChill SEO** - Network-activated SEO functionality providing:
+- Meta tags (title modification, meta descriptions)
+- Robots directives via `wp_robots` filter
+- Structured data as JSON-LD `@graph` (WebSite, Organization, Article, Breadcrumb schemas)
+- Open Graph and Twitter Card tags for social sharing
+- IndexNow integration for automatic URL pinging
+
 **Plugin Architecture**: All Extra Chill plugins use direct `require_once` includes for loading. Composer autoloading exists only for development dependencies (PHPUnit, PHPCS) and external libraries (ai-http-client).
 
 ## Site 1: extrachill.com (Main Site)
@@ -76,7 +95,6 @@ The **main site** in the multisite network serving as the foundational blog and 
 **Site-Specific Plugins**:
 - ExtraChill Contact - Contact form system with newsletter integration
 - ExtraChill Events - Calendar and event management
-- ExtraChill News Wire - Festival Wire custom post type for music coverage
 - ExtraChill Blog - Blog-specific functionality for the main site
 
 **Network Plugin Integration**: ExtraChill Newsletter (network-activated) provides subscription forms via hook integrations
@@ -159,6 +177,22 @@ The **dedicated newsletter hub** centralizes Sendy-powered email campaign manage
 - Extra Chill Newsletter - Sendy integration, list segmentation, and campaign orchestration for the Extra Chill audience
 
 **Cross-Site Integration**: Receives subscriber data from forms embedded across the network via `extrachill-newsletter` hooks and shares engagement metrics back to the main site dashboards
+
+## Site 9: docs.extrachill.com (Documentation Hub)
+
+**Documentation hub** for the Extra Chill Platform ecosystem.
+
+**Site-Specific Plugins**:
+- Extra Chill Docs - Documentation hub functionality
+
+## Site 10: wire.extrachill.com (News Wire)
+
+**Automated news feeds directory** and news wire hub.
+
+**Site-Specific Plugins**:
+- Extra Chill News Wire - Festival Wire custom post type and automated news feeds
+
+**Integration**: Uses `extrachill_homepage_content` action hook for homepage content injection on wire.extrachill.com
 
 ## API Integration Architecture
 
