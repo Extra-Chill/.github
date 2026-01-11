@@ -5,7 +5,7 @@
 # Automatically detects project type from headers (Plugin Name or Theme Name)
 # and creates standardized production builds with dependency management.
 #
-# Output Structure (CLAUDE.md compliant):
+# Output Structure (assistant-instructions compliant):
 #   /build/[project-name]/       - Clean production directory
 #   /build/[project-name].zip    - Production ZIP file (non-versioned)
 #
@@ -223,6 +223,7 @@ create_rsync_excludes() {
 .gitattributes
 README.md
 CLAUDE.md
+AGENTS.md
 .claude
 .vscode
 .idea

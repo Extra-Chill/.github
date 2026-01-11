@@ -1,92 +1,88 @@
-# Extra Chill
+# Extra Chill Platform
 
-A WordPress development ecosystem supporting Extra Chill, an independent music platform. 
+A WordPress multisite platform powering Extra Chill (11 active sites) plus the tooling used to build and operate it.
 
 ## About
 
-Extra Chill is a music publication and community platform built on WordPress multisite architecture, featuring artist profiles, community forums, newsletter systems, and e-commerce integration.
+Extra Chill is an independent music publication and community platform built on WordPress multisite architecture, featuring shared authentication, a centralized REST API, artist profiles, community forums, newsletter systems, and e-commerce.
 
-### Network Architecture
+## Multisite network (blog IDs)
 
-- **extrachill.com** - Main music publication site (Blog ID 1)
-- **community.extrachill.com** - Community forums and user authentication hub (Blog ID 2)
-- **shop.extrachill.com** - E-commerce platform with WooCommerce (Blog ID 3)
-- **artist.extrachill.com** - Artist platform and profiles (Blog ID 4)
-- **chat.extrachill.com** - AI chatbot system with ChatGPT-style interface (Blog ID 5)
-- **events.extrachill.com** - Event calendar hub (Blog ID 7)
-- **stream.extrachill.com** - Live streaming platform (Phase 1 UI) (Blog ID 8)
-- **newsletter.extrachill.com** - Newsletter management and archive hub (Blog ID 9)
+- **extrachill.com** - Main publication site (Blog ID 1)
+- **community.extrachill.com** - Forums + authentication hub (Blog ID 2)
+- **shop.extrachill.com** - WooCommerce store (Blog ID 3)
+- **artist.extrachill.com** - Artist platform (Blog ID 4)
+- **chat.extrachill.com** - AI chat (Blog ID 5)
+- **events.extrachill.com** - Events calendar (Blog ID 7)
+- **stream.extrachill.com** - Streaming (Phase 1 UI) (Blog ID 8)
+- **newsletter.extrachill.com** - Newsletter operations (Blog ID 9)
 - **docs.extrachill.com** - Documentation hub (Blog ID 10)
-- **wire.extrachill.com** - Automated news feeds directory (Blog ID 11)
-- **horoscope.extrachill.com** - Planned site (future Blog ID 12)
+- **wire.extrachill.com** - News wire (Blog ID 11)
+- **horoscope.extrachill.com** - Horoscopes (Blog ID 12)
+
+Canonical reference: `.github/NETWORK-ARCHITECTURE.MD`
 
 ## Repositories
 
-### WordPress Plugins
+### WordPress plugins
 
-**Network-Activated (Production)**
-- **extrachill-multisite** - Core network-wide functionality and cross-site data access
-- **extrachill-users** - Cross-site user management with team member system
-- **extrachill-search** - Universal multisite search across all network sites
-- **extrachill-ai-client** - AI provider library with centralized API key management
-- **extrachill-api** - REST API infrastructure for all custom endpoints
-- **extrachill-newsletter** - Network-wide newsletter system with Sendy integration
-- **extrachill-admin-tools** - Centralized administrative tools for platform management
-- **extrachill-dev** - Development tools and debugging utilities
+**Network-activated (production)**
+- **extrachill-multisite** - Multisite foundation (domain mapping, access controls, shared helpers)
+- **extrachill-users** - Network-wide authentication + user management
+- **extrachill-ai-client** - Shared AI provider library
+- **extrachill-api** - Central REST API ecosystem (`/wp-json/extrachill/v1/`)
+- **extrachill-search** - Universal multisite search
+- **extrachill-newsletter** - Sendy integration + network subscription hooks
+- **extrachill-admin-tools** - Platform admin utilities
+- **extrachill-analytics** - Network analytics tracking
+- **extrachill-seo** - Meta/structured data + multisite SEO tooling
 
-**Site-Specific (Production)**
-- **extrachill-artist-platform** - Comprehensive artist profiles and link pages
-- **extrachill-community** - Forum integration and community features
-- **extrachill-blog** - Blog-specific functionality for the main site
-- **extrachill-events** - Calendar and event management
-- **extrachill-chat** - AI chatbot system for chat.extrachill.com
-- **extrachill-stream** - Live streaming platform for artist members (Phase 1 UI)
-- **extrachill-docs** - Documentation hub for docs.extrachill.com
-- **extrachill-horoscopes** - Wook-themed horoscopes (site not yet provisioned)
-- **extrachill-seo** - SEO management and multisite audit tools
-- **extrachill-shop** - WooCommerce integration and cross-domain license handling
-- **extrachill-news-wire** - Festival Wire custom post type and coverage tools
-- **extrachill-contact** - Contact forms with Sendy integration hooks
+**Local-only (not deployed)**
+- **extrachill-dev** - Development/debug utilities
 
-**Forked Dependencies**
-- **blocks-everywhere** - Forked from Automattic/blocks-everywhere, enables Gutenberg blocks in bbPress
+**Site-activated (production)**
+- **extrachill-artist-platform** - Artist profiles, link pages, analytics
+- **extrachill-community** - Forums integration and community features
+- **extrachill-blog** - Main-site extensions
+- **extrachill-events** - events.extrachill.com templates + Data Machine Events integration
+- **extrachill-chat** - chat.extrachill.com experience
+- **extrachill-stream** - stream.extrachill.com experience (Phase 1 UI)
+- **extrachill-docs** - docs.extrachill.com docs surface
+- **extrachill-horoscopes** - Horoscope features
+- **extrachill-shop** - WooCommerce integration + cross-domain license handling
+- **extrachill-news-wire** - news wire custom post type + workflows
+- **extrachill-contact** - Contact forms (Turnstile + newsletter hooks)
 
-**Mobile App**
-- **extrachill-app** - React Native app (Expo) for the platform
+**Forked dependencies**
+- **isolated-block-editor** - Automattic fork; standalone Gutenberg editor
+- **blocks-everywhere** - Enables blocks in contexts like bbPress
 
-### WordPress Themes
-- **extrachill** - Main theme for all sites
+### Theme
 
-### Infrastructure & Dependencies
-- **isolated-block-editor** - Forked from Automattic/isolated-block-editor, standalone Gutenberg editor that replaces any textarea with full block editor functionality, used by blocks-everywhere and other components
+- **extrachill** - Shared theme used across all sites
 
-### Shared Infrastructure
-- **.github/build.sh** - Universal build script symlinked into all 19 core plugins, 2 forked dependencies, and the theme
-- **AGENTS.md** - Architectural documentation files in root and individual projects
+### Mobile app
 
-## Technology Stack
+- **extrachill-app** - React Native (Expo/TypeScript)
 
-- **WordPress Multisite** - Core platform with native cross-site data access
-- **PHP** - Procedural WordPress patterns with direct includes (`require_once`)
-- **JavaScript** - Event-driven frontend interactions via CustomEvent system
-- **Composer** - Development dependencies and external libraries (ai-http-client)
-- **React Native** - Mobile app (Expo/TypeScript)
+## Developer ops tooling (Homeboy)
 
-## Architecture Overview
+Homeboy is a general-purpose developer ops tool (macOS app + CLI) developed alongside this platform and used for day-to-day operations like deployments, remote WP-CLI, PM2, logs, DB tasks, and remote files.
 
-**Hardcoded Blog IDs**: All plugins and theme use hardcoded blog IDs for performance.
+- Source in this monorepo: `homeboy/`
+- Get started: `homeboy/README.md`
+- CLI reference: `homeboy/homeboy-cli/README.md`
 
-**Newsletter Integration System**: Five-plugin architecture with centralized `extrachill_multisite_subscribe()` bridge function in extrachill-newsletter plugin.
+## Events stack (Data Machine)
 
-**Universal Build System**: Shared `.github/build.sh` script symlinked into all 19 core plugins, 2 forked dependencies, and the theme for consistent release packaging with automatic project type detection.
+`events.extrachill.com` is powered by **Data Machine** (publisher ops) and the **Data Machine Events** plugin. Extra Chill extends the frontend and theme integration via `extrachill-events`.
 
-**Template Override System**: Theme uses `template_include` filter with plugin-extensible template routing allowing plugins to control specific site homepages (chat, events, stream).
+## Platform invariants
 
-## Getting Started
-
-Each repository contains its own `AGENTS.md` file with project-specific development guidance. See the organization's shared `AGENTS.md` for cross-repository standards.
+- **Blog ID single source of truth**: runtime code uses `ec_get_blog_id()` / `ec_get_domain_map()` from `extrachill-plugins/network/extrachill-multisite/inc/core/blog-ids.php`. Numeric mapping is reserved for `.github/sunrise.php`.
+- **Domain mapping (`extrachill.link`)**: `.github/sunrise.php` routes `extrachill.link` to blog 4 and preserves frontend URLs.
+- **Build packaging**: each plugin/theme has `./build.sh` symlinked to `/.github/build.sh` and outputs `build/<name>.zip`.
 
 ## Built by
 
-**Chris Huber** - Founder & Editor
-🌐 [chubes.net](https://chubes.net) | 🎵 [extrachill.com](https://extrachill.com)
+Chris Huber - https://chubes.net - https://extrachill.com

@@ -57,9 +57,9 @@ All sites use the **extrachill theme** with the **universal template routing sys
 
 **ExtraChill API** - Network-activated REST API infrastructure providing:
 - Centralized REST endpoint management under `extrachill/v1` namespace
-- Automatic route discovery via RecursiveIteratorIterator from `inc/routes/` directory
-- 60+ endpoints across 19 categories (activity, admin, analytics, artists, auth, blog, chat, community, config, contact, docs, events, media, newsletter, seo, shop, stream, tools, users)
-- All plugins consume API endpoints for cross-platform data sharing and functionality
+- Automatic route discovery via `RecursiveIteratorIterator` from `inc/routes/`
+- Endpoint registration via the `extrachill_api_register_routes` action
+- Shared utilities used across the network (auth helpers, activity system, docs sync)
 
 **ExtraChill Newsletter** - Network-activated newsletter system providing:
 - Sendy integration for email campaign management
@@ -75,8 +75,8 @@ All sites use the **extrachill theme** with the **universal template routing sys
 
 **ExtraChill Analytics** - Network-activated analytics tracking providing:
 - Unified event tracking system for key business metrics (newsletter signups, user registrations, page views)
-- Asynchronous view counting via `navigator.sendBeacon()`
-- Consumes extrachill-api endpoints for data persistence
+- Asynchronous event capture via `navigator.sendBeacon()` where appropriate
+- Consumes extrachill-api endpoints for persistence
 - Admin dashboard analytics display
 
 **ExtraChill SEO** - Network-activated SEO functionality providing:
@@ -147,11 +147,15 @@ The **merchandise store** providing e-commerce functionality for the Extra Chill
 
 ## Site 6: events.extrachill.com (Event Calendar Hub)
 
-**Event calendar and festival coverage** powered by Data Machine event automation.
+**Event calendar and festival coverage** run by **external** dependencies:
+- **Data Machine** (plugin) - event automation and content pipeline (external to this repo)
+- **datamachine-events** (plugin) - calendar block and event post type (external to this repo)
+
+This repo provides the **ExtraChill Events** plugin for theme integration and homepage routing, but the calendar data model and block UI come from the external Data Machine + datamachine-events codebases.
 
 **Site-Specific Plugins**:
-- Data Machine - Event automation and content pipeline
-- datamachine-events - Calendar block and event post type
+- Data Machine (external)
+- datamachine-events (external)
 - ExtraChill Events - Homepage template override for calendar display
 
 **Calendar Setup**: Uses WordPress static homepage with datamachine-events calendar block for full event display and filtering
