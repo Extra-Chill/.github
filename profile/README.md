@@ -1,6 +1,6 @@
 # Extra Chill
 
-Extra Chill is an independent music platform built with WordPress Multisite. We are always evolving. This is where we keep our code. 
+Extra Chill is an independent music platform built with WordPress Multisite. This is the home for developing our platform. Thank you for visiting, and have a wonderful day. 
 
 ## Multisite network (blog IDs)
 
