@@ -2,7 +2,7 @@ This document provides an overview of the Extra Chill Platform WordPress multisi
 
 ## Network Architecture
 
-The Extra Chill Platform operates as a **WordPress multisite network** consisting of **eleven (11) interconnected sites** (Blog ID 6 is unused):
+The Extra Chill Platform operates as a **WordPress multisite network** consisting of **eleven (11) interconnected sites** (Blog ID 6 is unused), powered by 22 Extra Chill plugins and 3 Extra Chill organization tools used across the platform (Data Machine ecosystem, AI Bot for bbPress, Post to Instagram).
 
 1. **extrachill.com** (Blog ID 1) - Main music journalism and content site
 2. **community.extrachill.com** (Blog ID 2) - Community forums and user authentication hub
@@ -96,6 +96,7 @@ The **main site** in the multisite network serving as the foundational blog and 
 - ExtraChill Contact - Contact form system with newsletter integration
 - ExtraChill Events - Calendar and event management
 - ExtraChill Blog - Blog-specific functionality for the main site
+- Post to Instagram - Shares blog images from main site media library to Instagram
 
 **Network Plugin Integration**: ExtraChill Newsletter (network-activated) provides subscription forms via hook integrations
 
@@ -110,6 +111,7 @@ The **community hub** where users register and join to interact across the entir
 - ExtraChill Artist Platform - Comprehensive artist profiles, link pages, analytics, and forum integration (consumes artists, analytics, shop API endpoints)
 - ExtraChill Blocks - Custom Gutenberg blocks for community engagement (trivia, voting, name generators)
 - bbPress - Forum software for community discussions
+- AI Bot for bbPress - Sarai Chinwag forum bot persona powered by multi-provider AI support (OpenAI, Anthropic, Gemini, Grok, OpenRouter)
 
 **Multisite Integration**: User accounts created here authenticate across all network sites using WordPress native multisite authentication
 
@@ -147,15 +149,15 @@ The **merchandise store** providing e-commerce functionality for the Extra Chill
 
 ## Site 6: events.extrachill.com (Event Calendar Hub)
 
-**Event calendar and festival coverage** run by **external** dependencies:
-- **Data Machine** (plugin) - event automation and content pipeline (external to this repo)
-- **datamachine-events** (plugin) - calendar block and event post type (external to this repo)
+**Event calendar and festival coverage** powered by the Data Machine ecosystem:
+- **Data Machine** - AI-powered content pipeline automation and event management
+- **Data Machine Events** - Calendar block and event post type for events.extrachill.com
 
-This repo provides the **ExtraChill Events** plugin for theme integration and homepage routing, but the calendar data model and block UI come from the external Data Machine + datamachine-events codebases.
+This repo provides the **ExtraChill Events** plugin for theme integration and homepage routing, while the calendar data model, block UI, and AI-driven event creation come from the Data Machine ecosystem.
 
 **Site-Specific Plugins**:
-- Data Machine (external)
-- datamachine-events (external)
+- Data Machine - AI-powered content pipeline automation (sites 7, 11, soon 12)
+- datamachine-events - Events calendar block and event management
 - ExtraChill Events - Homepage template override for calendar display
 
 **Calendar Setup**: Uses WordPress static homepage with datamachine-events calendar block for full event display and filtering
@@ -194,9 +196,17 @@ The **dedicated newsletter hub** centralizes Sendy-powered email campaign manage
 **Automated news feeds directory** and news wire hub.
 
 **Site-Specific Plugins**:
+- Data Machine - AI-powered content pipeline automation
 - Extra Chill News Wire - Festival Wire custom post type and automated news feeds
 
 **Integration**: Uses `extrachill_homepage_content` action hook for homepage content injection on wire.extrachill.com
+
+## Site 11: horoscope.extrachill.com (Horoscopes)
+
+**Horoscope functionality** for the Extra Chill Platform ecosystem.
+
+**Site-Specific Plugins**:
+- Extra Chill Horoscopes - Horoscope functionality (Data Machine integration coming soon)
 
 ## API Integration Architecture
 

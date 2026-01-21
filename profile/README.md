@@ -53,6 +53,12 @@ Canonical reference: `.github/NETWORK-ARCHITECTURE.MD`
 - **isolated-block-editor** - Automattic fork; standalone Gutenberg editor
 - **blocks-everywhere** - Enables blocks in contexts like bbPress
 
+**Platform tools (used across network)**
+- **data-machine** - AI-powered content pipeline automation and event management
+- **datamachine-events** - Events calendar block and event post type
+- **ai-bot-for-bbpress** - Universal AI bot for bbPress forums with multi-provider support
+- **post-to-instagram** - WordPress to Instagram integration for content distribution
+
 ### Theme
 
 - **extrachill** - Shared theme used across all sites
@@ -69,9 +75,13 @@ Homeboy is a general-purpose developer ops tool (macOS app + CLI) developed alon
 - Get started: `homeboy/README.md`
 - CLI reference: `homeboy/homeboy-cli/README.md`
 
-## Events stack (Data Machine)
+## Platform tooling integration
 
-`events.extrachill.com` is powered by **Data Machine** (publisher ops) and the **Data Machine Events** plugin. Extra Chill extends the frontend and theme integration via `extrachill-events`.
+Platform tools integrate across the multisite network:
+- **Data Machine** - AI-powered content pipeline automation (sites 7, 11, soon 12)
+- **Data Machine Events** - Events calendar and event management (site 7)
+- **AI Bot for bbPress** - Forum automation for community site (site 2)
+- **Post to Instagram** - Content syndication for main site (site 1)
 
 ## Platform invariants
 
