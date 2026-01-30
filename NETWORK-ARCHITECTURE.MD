@@ -9,7 +9,7 @@ The Extra Chill Platform operates as a **WordPress multisite network** consistin
 3. **shop.extrachill.com** (Blog ID 3) - E-commerce platform with WooCommerce
 4. **artist.extrachill.com** (Blog ID 4) - Artist platform and profiles
 5. **chat.extrachill.com** (Blog ID 5) - AI chatbot system with ChatGPT-style interface
-6. **events.extrachill.com** (Blog ID 7) - Event calendar hub powered by Data Machine
+6. **events.extrachill.com** (Blog ID 7) - Event calendar hub powered by Data Machine (post type: `datamachine_events`)
 7. **stream.extrachill.com** (Blog ID 8) - Live streaming platform (Phase 1 UI)
 8. **newsletter.extrachill.com** (Blog ID 9) - Newsletter operations and Sendy integration hub
 9. **docs.extrachill.com** (Blog ID 10) - Documentation hub
@@ -149,18 +149,15 @@ The **merchandise store** providing e-commerce functionality for the Extra Chill
 
 ## Site 6: events.extrachill.com (Event Calendar Hub)
 
-**Event calendar and festival coverage** powered by the Data Machine ecosystem:
-- **Data Machine** - AI-powered content pipeline automation and event management
-- **Data Machine Events** - Calendar block and event post type for events.extrachill.com
+Event calendar and festival coverage powered by the Data Machine ecosystem.
 
-This repo provides the **ExtraChill Events** plugin for theme integration and homepage routing, while the calendar data model, block UI, and AI-driven event creation come from the Data Machine ecosystem.
+This repo provides the **ExtraChill Events** plugin for theme integration and homepage routing; calendar data and the calendar block are provided by the Data Machine project.
 
 **Site-Specific Plugins**:
-- Data Machine - AI-powered content pipeline automation (sites 7, 11, soon 12)
-- datamachine-events - Events calendar block and event management
+- Data Machine - AI-powered content pipeline automation and event management (sites 7, 11, soon 12)
 - ExtraChill Events - Homepage template override for calendar display
 
-**Calendar Setup**: Uses WordPress static homepage with datamachine-events calendar block for full event display and filtering
+**Calendar Setup**: Uses WordPress static homepage with the Data Machine calendar block (backed by the canonical `datamachine_events` post type) for full event display and filtering.
 
 **Integration**: Uses `extrachill_homepage_content` action hook for homepage content injection
 
