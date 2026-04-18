@@ -13,7 +13,6 @@ Serving artists, listeners, and the independent music community since 2011.
 | [shop.extrachill.com](https://shop.extrachill.com) | Merchandise & music store |
 | [artist.extrachill.com](https://artist.extrachill.com) | Artist profiles & link pages |
 | [events.extrachill.com](https://events.extrachill.com) | Events calendar |
-| [stream.extrachill.com](https://stream.extrachill.com) | Live streaming |
 | [newsletter.extrachill.com](https://newsletter.extrachill.com) | Newsletter management |
 | [docs.extrachill.com](https://docs.extrachill.com) | Documentation hub |
 | [wire.extrachill.com](https://wire.extrachill.com) | News wire |
@@ -26,7 +25,7 @@ Extra Chill is an independent music platform built on WordPress Multisite. This 
 ## What's Here
 
 - **35+ WordPress plugins** - Network-wide and site-specific functionality
-- **Theme** - Shared across all 10 network sites
+- **Theme** - Shared across all 9 network sites
 - **Mobile app** - React Native (Expo/TypeScript)
 - **Homeboy** - Developer ops CLI (Rust)
 - **Sweatpants** - Lazy man's automation engine (Python)

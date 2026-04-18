@@ -2,7 +2,7 @@ This document provides an overview of the Extra Chill Platform WordPress multisi
 
 ## Network Architecture
 
-The Extra Chill Platform operates as a **WordPress multisite network** consisting of **eleven (11) interconnected sites** (Blog ID 6 is unused), powered by 22 Extra Chill plugins and 3 Extra Chill organization tools used across the platform (Data Machine ecosystem, AI Bot for bbPress, Post to Instagram).
+The Extra Chill Platform operates as a **WordPress multisite network** consisting of **nine (9) active sites** (Blog IDs 5–6 and 8 are unused/decommissioned), powered by 22 Extra Chill plugins and 3 Extra Chill organization tools used across the platform (Data Machine ecosystem, AI Bot for bbPress, Post to Instagram).
 
 1. **extrachill.com** (Blog ID 1) - Main music journalism and content site
 2. **community.extrachill.com** (Blog ID 2) - Community forums and user authentication hub
@@ -10,11 +10,10 @@ The Extra Chill Platform operates as a **WordPress multisite network** consistin
 4. **artist.extrachill.com** (Blog ID 4) - Artist platform and profiles
 5. **chat.extrachill.com** (Blog ID 5) - AI chatbot system with ChatGPT-style interface
 6. **events.extrachill.com** (Blog ID 7) - Event calendar hub powered by Data Machine (post type: `datamachine_events`)
-7. **stream.extrachill.com** (Blog ID 8) - Live streaming platform (Phase 1 UI)
-8. **newsletter.extrachill.com** (Blog ID 9) - Newsletter operations and Sendy integration hub
-9. **docs.extrachill.com** (Blog ID 10) - Documentation hub
-10. **wire.extrachill.com** (Blog ID 11) - Automated news feeds directory
-11. **horoscope.extrachill.com** (Blog ID 12) - Horoscope functionality
+7. **newsletter.extrachill.com** (Blog ID 9) - Newsletter operations and Sendy integration hub
+8. **docs.extrachill.com** (Blog ID 10) - Documentation hub
+9. **wire.extrachill.com** (Blog ID 11) - Automated news feeds directory
+10. **studio.extrachill.com** (Blog ID 12) - Studio
 
 ### Blog ID Resolution
 
@@ -161,18 +160,7 @@ This repo provides the **ExtraChill Events** plugin for theme integration and ho
 
 **Integration**: Uses `extrachill_homepage_content` action hook for homepage content injection
 
-## Site 7: stream.extrachill.com (Live Streaming Platform)
-
-The **live streaming surface** designed for artist members, currently operating as a Phase 1 non-functional UI while streaming infrastructure is finalized.
-
-**Site-Specific Plugins**:
-- Extra Chill Stream - Homepage template override delivering the streaming dashboard interface
-
-**Current Status**: UI scaffolding in place with roadmap for media ingestion, access control, and artist scheduling workflows
-
-**Integration**: Shares multisite authentication, uses `extrachill_homepage_content` action hook for homepage content injection, and will consume artist platform data and stream API endpoints on launch
-
-## Site 8: newsletter.extrachill.com (Newsletter Operations)
+## Site 7: newsletter.extrachill.com (Newsletter Operations)
 
 The **dedicated newsletter hub** centralizes Sendy-powered email campaign management away from the main site while maintaining multisite authentication.
 
@@ -181,14 +169,14 @@ The **dedicated newsletter hub** centralizes Sendy-powered email campaign manage
 
 **Cross-Site Integration**: Receives subscriber data from forms embedded across the network via `extrachill-newsletter` hooks and shares engagement metrics back to the main site dashboards
 
-## Site 9: docs.extrachill.com (Documentation Hub)
+## Site 8: docs.extrachill.com (Documentation Hub)
 
 **Documentation hub** for the Extra Chill Platform ecosystem.
 
 **Site-Specific Plugins**:
 - Extra Chill Docs - Documentation hub functionality
 
-## Site 10: wire.extrachill.com (News Wire)
+## Site 9: wire.extrachill.com (News Wire)
 
 **Automated news feeds directory** and news wire hub.
 
@@ -198,12 +186,12 @@ The **dedicated newsletter hub** centralizes Sendy-powered email campaign manage
 
 **Integration**: Uses `extrachill_homepage_content` action hook for homepage content injection on wire.extrachill.com
 
-## Site 11: horoscope.extrachill.com (Horoscopes)
+## Site 10: studio.extrachill.com (Studio)
 
-**Horoscope functionality** for the Extra Chill Platform ecosystem.
+**Studio** for the Extra Chill Platform ecosystem.
 
 **Site-Specific Plugins**:
-- Extra Chill Horoscopes - Horoscope functionality (Data Machine integration coming soon)
+- Extra Chill Studio - Studio functionality
 
 ## API Integration Architecture
 
