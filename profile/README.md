@@ -1,13 +1,15 @@
+<!-- cspell:ignore extrachill multisite -->
+
 # Extra Chill
 
-**Independent music platform & software hub**
+> Independent music platform and open-source software hub
 
 Serving artists, listeners, and the independent music community since 2011.
 
 ## The Network
 
 | Site | Description |
-|------|-------------|
+| --- | --- |
 | [extrachill.com](https://extrachill.com) | Main publication - music news, features, reviews |
 | [community.extrachill.com](https://community.extrachill.com) | Forums & community hub |
 | [shop.extrachill.com](https://shop.extrachill.com) | Merchandise & music store |
@@ -20,18 +22,25 @@ Serving artists, listeners, and the independent music community since 2011.
 
 ## About
 
-Extra Chill is an independent music platform built on WordPress Multisite. This GitHub organization houses the open source tools and platform components that power the network - from WordPress plugins and themes to mobile apps and developer tooling.
+Extra Chill is an independent music platform built on WordPress Multisite. This
+organization develops the open-source products and tools behind the publication,
+community, artist, event, commerce, newsletter, and editorial experiences.
 
 ## What's Here
 
-- **35+ WordPress plugins** - Network-wide and site-specific functionality
-- **Theme** - Shared across all 9 network sites
-- **Mobile app** - React Native (Expo/TypeScript)
-- **Homeboy** - Developer ops CLI (Rust)
-- **Sweatpants** - Lazy man's automation engine (Python)
-- **Data Machine** - AI-powered content pipeline and automation engine
-- **@extrachill/chat** - Shared chat UI library (React/TypeScript)
-- **Roadie** - Floating agent chat for the network
+- **WordPress platform** - A shared theme and domain-owned plugins power all nine
+  sites without centralizing product behavior.
+- **Music products** - Open-source plugins own community, artists, events, commerce,
+  publishing, newsletters, search, analytics, SEO, and editorial tools.
+- **[Data Machine](https://github.com/Extra-Chill/data-machine)** - The agentic
+  operating system for WordPress automation, content operations, and workflows.
+- **[Homeboy](https://github.com/Extra-Chill/homeboy)** - Deterministic orchestration
+  for agentic software engineering.
+- **[Extra Chill App](https://github.com/Extra-Chill/extrachill-app)** - The
+  cross-platform React Native app powered by the WordPress network.
+- **Agent tooling** - Agents API, Frontend Agent Chat, and WP Codebox provide generic
+  runtime and sandbox capabilities; [Roadie](https://github.com/Extra-Chill/extrachill-roadie)
+  adds Extra Chill's role-aware artist, user, community, and coding tools.
 
 ---
 
