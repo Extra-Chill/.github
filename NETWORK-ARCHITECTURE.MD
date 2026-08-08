@@ -1,219 +1,220 @@
-This document provides an overview of the Extra Chill Platform WordPress multisite network, a comprehensive music community ecosystem.
-
-## Network Architecture
-
-The Extra Chill Platform operates as a **WordPress multisite network** consisting of **nine (9) active sites** (Blog IDs 5–6 and 8 are unused/decommissioned), powered by 22 Extra Chill plugins and 3 Extra Chill organization tools used across the platform (Data Machine ecosystem, AI Bot for bbPress, Post to Instagram).
-
-1. **extrachill.com** (Blog ID 1) - Main music journalism and content site
-2. **community.extrachill.com** (Blog ID 2) - Community forums and user authentication hub
-3. **shop.extrachill.com** (Blog ID 3) - E-commerce platform with WooCommerce
-4. **artist.extrachill.com** (Blog ID 4) - Artist platform and profiles
-5. **chat.extrachill.com** (Blog ID 5) - AI chatbot system with ChatGPT-style interface
-6. **events.extrachill.com** (Blog ID 7) - Event calendar hub powered by Data Machine (post type: `datamachine_events`)
-7. **newsletter.extrachill.com** (Blog ID 9) - Newsletter operations and Sendy integration hub
-8. **docs.extrachill.com** (Blog ID 10) - Documentation hub
-9. **wire.extrachill.com** (Blog ID 11) - Automated news feeds directory
-10. **studio.extrachill.com** (Blog ID 12) - Studio
-
-### Blog ID Resolution
-
-Core plugins rely on a centralized canonical blog ID map for performance and consistency.
-
-All sites use the **extrachill theme** with the **universal template routing system**. Individual plugins hook into the theme to provide site-specific functionality.
-
-## Network-Activated Plugins
-
-**ExtraChill Multisite** - Network-activated plugin providing centralized multisite functionality across all sites in the network, including:
-- Cross-site data access using `switch_to_blog()` and `restore_current_blog()`
-- Admin access control across network
-- Cloudflare Turnstile integration
-- Ad-free license validation system
-- Unified comment and author management
-- Newsletter bridge function for Sendy integration
-
-**ExtraChill Users** - Network-activated user management plugin providing:
-- Authentication system (login/register/password reset via Gutenberg blocks)
-- Team member system with manual override support
-- User creation on community.extrachill.com
-- Profile URL resolution (`ec_get_user_profile_url()`)
-- Custom avatar system
-- Network-wide avatar menu
-- Online user tracking across all sites
-
-**ExtraChill Search** - Network-activated universal search plugin providing:
-- Real-time multisite search across all network sites via `extrachill_multisite_search()` function
-- Dynamic site discovery via `get_sites()` with automatic WordPress blog-id-cache
-- Flexible post type support (posts, pages, bbPress topics/replies, custom post types)
-- Meta query support for advanced filtering
-- Cross-site pagination and contextual excerpts
-- Search results template with site badges
-
-**ExtraChill AI Client** - Network-activated AI provider library providing:
-- Centralized API key management for all AI providers (OpenAI, Anthropic, Google Gemini, Grok, OpenRouter)
-- Network-wide configuration accessible to all plugins across all sites
-- Filter-based architecture for AI requests (`ai_request` filter)
-- Shared library pattern eliminating duplicate API key storage
-
-**ExtraChill API** - Network-activated REST API infrastructure providing:
-- Centralized REST endpoint management under `extrachill/v1` namespace
-- Automatic route discovery via `RecursiveIteratorIterator` from `inc/routes/`
-- Endpoint registration via the `extrachill_api_register_routes` action
-- Shared utilities used across the network (auth helpers, activity system, docs sync)
-
-**ExtraChill Newsletter** - Network-activated newsletter system providing:
-- Sendy integration for email campaign management
-- Subscription forms available network-wide via hook integrations
-- Newsletter custom post type and admin UI (newsletter.extrachill.com only)
-- Network-wide settings stored in `get_site_option('extrachill_newsletter_settings')`
-- Conditional loading based on site context
-
-**ExtraChill Admin Tools** - Network-activated administrative tools providing:
-- Platform management utilities
-- Migration tools for content between sites
-- Admin dashboard enhancements
-
-**ExtraChill Analytics** - Network-activated analytics tracking providing:
-- Unified event tracking system for key business metrics (newsletter signups, user registrations, page views)
-- Asynchronous event capture via `navigator.sendBeacon()` where appropriate
-- Consumes extrachill-api endpoints for persistence
-- Admin dashboard analytics display
-
-**ExtraChill SEO** - Network-activated SEO functionality providing:
-- Meta tags (title modification, meta descriptions)
-- Robots directives via `wp_robots` filter
-- Structured data as JSON-LD `@graph` (WebSite, Organization, Article, Breadcrumb schemas)
-- Open Graph and Twitter Card tags for social sharing
-- IndexNow integration for automatic URL pinging
-
-**Plugin Architecture**: All Extra Chill plugins use direct `require_once` includes for loading. Composer autoloading exists only for development dependencies (PHPUnit, PHPCS) and external libraries (ai-http-client).
-
-## Site 1: extrachill.com (Main Site)
-
-The **main site** in the multisite network serving as the foundational blog and informational music website. Hosts music journalism, festival coverage, and general content.
-
-**Site-Specific Plugins**:
-- ExtraChill Contact - Contact form system with newsletter integration
-- ExtraChill Events - Calendar and event management
-- ExtraChill Blog - Blog-specific functionality for the main site
-- Post to Instagram - Shares blog images from main site media library to Instagram
-
-**Network Plugin Integration**: ExtraChill Newsletter (network-activated) provides subscription forms via hook integrations
-
-**Excluded Plugins**: WooCommerce, bbPress (handled by other sites in network)
-
-## Site 2: community.extrachill.com (Community Site)
-
-The **community hub** where users register and join to interact across the entire multisite network. Serves as the central authentication point for network-wide user accounts.
-
-**Site-Specific Plugins**:
-- ExtraChill Community - Community platform with forum functionality and theme integration (consumes community API endpoints for upvoting and drafts)
-- ExtraChill Artist Platform - Comprehensive artist profiles, link pages, analytics, and forum integration (consumes artists, analytics, shop API endpoints)
-- ExtraChill Blocks - Custom Gutenberg blocks for community engagement (trivia, voting, name generators)
-- bbPress - Forum software for community discussions
-- AI Bot for bbPress - Sarai Chinwag forum bot persona powered by multi-provider AI support (OpenAI, Anthropic, Gemini, Grok, OpenRouter)
-
-**Multisite Integration**: User accounts created here authenticate across all network sites using WordPress native multisite authentication
-
-## Site 3: shop.extrachill.com (E-commerce Site)
-
-The **merchandise store** providing e-commerce functionality for the Extra Chill Platform with WooCommerce integration.
-
-**Site-Specific Plugins**:
-- ExtraChill Shop - WooCommerce integration with cross-domain ad-free license system (consumes shop API endpoints for products, Stripe Connect, webhooks)
-- WooCommerce - E-commerce platform for merchandise sales
-
-**Cross-Site Features**: Ad-free license validation is accessed by other sites in the network.
-
-## Site 4: artist.extrachill.com (Artist Platform)
-
-**Artist profiles and link pages** providing comprehensive artist platform functionality.
-
-**Site-Specific Plugins**:
-- ExtraChill Artist Platform - Artist profiles, link pages, analytics, subscription system, forum integration
-
-**Cross-Site Integration**: Integrates with community forums and multisite user authentication, consumes artists, analytics, and shop API endpoints
-
-## Site 5: chat.extrachill.com (AI Chat System)
-
-**AI chatbot interface** providing ChatGPT-style conversational AI for logged-in users across the multisite network.
-
-**Site-Specific Plugins**:
-- ExtraChill Chat - Homepage template override providing AI chatbot interface (consumes chat API endpoints for message history, conversation management)
-- ExtraChill AI Client - Network-activated AI provider integration (shared across all sites)
-
-**Authentication**: WordPress multisite native authentication - any logged-in user from any network site can access chat
-
-**Integration**: Uses `extrachill_homepage_content` action hook for homepage content injection
-
-
-## Site 6: events.extrachill.com (Event Calendar Hub)
-
-Event calendar and festival coverage powered by the Data Machine ecosystem.
-
-This repo provides the **ExtraChill Events** plugin for theme integration and homepage routing; calendar data and the calendar block are provided by the Data Machine project.
-
-**Site-Specific Plugins**:
-- Data Machine - AI-powered content pipeline automation and event management (sites 7, 11, soon 12)
-- ExtraChill Events - Homepage template override for calendar display
-
-**Calendar Setup**: Uses WordPress static homepage with the Data Machine calendar block (backed by the canonical `datamachine_events` post type) for full event display and filtering.
-
-**Integration**: Uses `extrachill_homepage_content` action hook for homepage content injection
-
-## Site 7: newsletter.extrachill.com (Newsletter Operations)
-
-The **dedicated newsletter hub** centralizes Sendy-powered email campaign management away from the main site while maintaining multisite authentication.
-
-**Site-Specific Plugins**:
-- Extra Chill Newsletter - Sendy integration, list segmentation, and campaign orchestration for the Extra Chill audience
-
-**Cross-Site Integration**: Receives subscriber data from forms embedded across the network via `extrachill-newsletter` hooks and shares engagement metrics back to the main site dashboards
-
-## Site 8: docs.extrachill.com (Documentation Hub)
-
-**Documentation hub** for the Extra Chill Platform ecosystem.
-
-**Site-Specific Plugins**:
-- Extra Chill Docs - Documentation hub functionality
-
-## Site 9: wire.extrachill.com (News Wire)
-
-**Automated news feeds directory** and news wire hub.
-
-**Site-Specific Plugins**:
-- Data Machine - AI-powered content pipeline automation
-- Extra Chill News Wire - Festival Wire custom post type and automated news feeds
-
-**Integration**: Uses `extrachill_homepage_content` action hook for homepage content injection on wire.extrachill.com
-
-## Site 10: studio.extrachill.com (Studio)
-
-**Studio** for the Extra Chill Platform ecosystem.
-
-**Site-Specific Plugins**:
-- Extra Chill Studio - Studio functionality
-
-## API Integration Architecture
-
-The **Extra Chill API** serves as the central nervous system for plugin interconnectivity across the multisite network, enabling seamless data flow and cross-platform functionality.
-
-### API-Driven Plugin Communication
-
-Site-activated plugins consume REST API endpoints provided by the network-activated `extrachill-api` plugin, creating a loosely-coupled architecture where plugins can function independently while sharing data when available.
-
-### Key Integration Patterns
-
-- **Artist Platform** ↔ **Shop**: Subscription data drives product recommendations and discount eligibility
-- **Community** ↔ **Artist Platform**: Forum discussions enhance artist profiles and engagement tracking
-- **Users** ↔ **Analytics**: User behavior informs personalized content across all sites
-- **Shop** ↔ **Analytics**: Purchase patterns generate product recommendations and loyalty rewards
-- **Newsletter** ↔ **Users**: Subscription status and preferences sync across user profiles
-- **Chat** ↔ **AI Client**: Conversational AI powered by centralized AI provider management
-
-### Data Flow Architecture
-
-The API ecosystem enables real-time data synchronization across sites while maintaining performance through:
-- Function existence checks for graceful degradation
-- Circuit breaker patterns for fault tolerance
-- Comprehensive error handling and logging
-- Standardized authentication and permission systems
+<!-- markdownlint-disable MD013 -->
+<!-- cspell:ignore Chubes datamachine extrachill Imagify Lightbox Mediavine multisite revisioned worktree -->
+
+# Extra Chill Network Architecture
+
+Extra Chill runs one WordPress multisite network with nine active sites. WordPress
+provides the shared runtime; repositories retain authority over their own data,
+permissions, product behavior, and public contracts.
+
+This document is a factual inventory and ownership map. It is not a dependency
+allowlist, a central architecture scanner, or a specification for future work.
+
+## Snapshot Metadata
+
+| Field | Value |
+| --- | --- |
+| Generated | 2026-08-08 21:07:36 UTC |
+| WordPress runtime | 7.0.3 |
+| Homeboy runtime | 0.327.5+018b5a7a52b9 |
+| Network | Extra Chill Sites |
+| Active sites | 9 |
+| Network-active plugins | 27 |
+| Active theme | Extra Chill (`extrachill`) on all nine sites |
+| GitHub evidence cutoff | Merged work and default branches visible on 2026-08-08 |
+
+The inventory was rebuilt from the live production runtime without changing it:
+
+- `wp site list` supplied the multisite IDs and URLs.
+- `wp plugin list --status=active-network` supplied the network plugin inventory.
+- `wp --url=<site> plugin list --status=active` supplied each site's additional plugins.
+- `wp --url=<site> theme list --status=active` confirmed the theme on every site.
+- `wp --url=<site> eval 'array_keys( wp_get_abilities() )'` confirmed the current owner ability surfaces.
+- `/var/www/extrachill.com/wp-content/uploads/datamachine-files/network/NETWORK.md`, generated at 2026-08-08 21:03:42 UTC, supplied the composed nine-site names and roles.
+- Merged audit pull requests and repository default branches supplied ownership and contract evidence.
+- `homeboy review audit --help` and Homeboy's merged audit work supplied the current generic detection contract.
+
+This is a point-in-time, manually reviewed snapshot. Before relying on inventory
+details after the generated timestamp, rerun the commands above and compare the
+result with the composed `NETWORK.md`. Architecture rules remain authoritative in
+the repository that owns the affected behavior.
+
+## Live Network
+
+WordPress users are shared across the multisite network. Media remains site-local.
+All nine sites currently use the Extra Chill theme, with site and network plugins
+adding the product-specific behavior.
+
+| Blog ID | Site | Current role | Additional site-active plugins |
+| ---: | --- | --- | --- |
+| 1 | [extrachill.com](https://extrachill.com/) | Music publication and network home | AI Provider for Claude Code; Co-Authors Plus; Data Machine Code; Data Machine Editor; Data Machine Socials; Extra Chill AI Adventure; Extra Chill Blog; Extra Chill Contact; Extra Chill Content Blocks; Mediavine Control Panel |
+| 2 | [community.extrachill.com](https://community.extrachill.com/) | Community forums | bbPress; Blocks Everywhere; Extra Chill Community; Extra Chill Content Blocks |
+| 3 | [shop.extrachill.com](https://shop.extrachill.com/) | Commerce | Extra Chill Shop; WooCommerce |
+| 4 | [artist.extrachill.com](https://artist.extrachill.com/) | Artist profiles and artist tools | Extra Chill Artist Platform |
+| 7 | [events.extrachill.com](https://events.extrachill.com/) | Events, venues, and booking | Data Machine Events; Extra Chill Events; Mediavine Control Panel |
+| 9 | [newsletter.extrachill.com](https://newsletter.extrachill.com/) | Newsletter operations | None beyond network-active plugins |
+| 10 | [docs.extrachill.com](https://docs.extrachill.com/) | Documentation | Data Machine Code; Extra Chill Docs |
+| 11 | [wire.extrachill.com](https://wire.extrachill.com/) | Festival Wire and news feeds | Data Machine Socials; Extra Chill News Wire; Mediavine Control Panel |
+| 12 | [studio.extrachill.com](https://studio.extrachill.com/) | Editorial studio | Blocks Everywhere; Data Machine Socials; Extra Chill Studio; Intelligence |
+
+## Network-Active Plugins
+
+The exact network-active plugin titles reported by WordPress are grouped here for
+readability. Grouping does not transfer ownership between repositories.
+
+| Platform and product | Runtime and adapters | Infrastructure and editor support |
+| --- | --- | --- |
+| Data Machine | AI Provider for Anthropic | Chubes Gallery Lightbox |
+| Data Machine Business | AI Provider for OpenAI | Easy WP SMTP |
+| Data Machine Chat Bridge | Extra Chill API | Gutenberg |
+| Extra Chill Analytics | Extra Chill CLI | HTML to Blocks Converter |
+| Extra Chill Cache | Extra Chill Events Network Blocks | Imagify |
+| Extra Chill Network | Extra Chill Roadie | Redis Object Cache |
+| Extra Chill Newsletter | Frontend Agent Chat | Two Factor |
+| Extra Chill SEO | wp-native Auth | Not applicable |
+| Extra Chill Users | WP Codebox | Not applicable |
+| ExtraChill Search | Not applicable | Not applicable |
+| Extra Chill Admin Tools | Not applicable | Not applicable |
+
+Extra Chill Admin Tools is an active retirement shell. Its former administrative
+behavior belongs to the relevant domain owners; new behavior must not be added to
+the shell.
+
+## Architecture Layers
+
+Dependencies point down this list. A generic layer does not name or special-case a
+product above it, and a consumer does not reach into a sibling owner's internals.
+
+### 1. WordPress, Abilities, and Agents Substrate
+
+WordPress core owns multisite context, users, posts, taxonomies, REST primitives,
+and the Abilities API. The live runtime exposes core abilities such as
+`core/get-site-info` through `wp_get_abilities()` and the Abilities REST controllers.
+
+[Agents API](https://github.com/Automattic/agents-api) provides generic agent
+identity, access, conversation, task, workflow, approval, and tool-call contracts.
+Data Machine currently loads its Composer-managed Agents API dependency when no
+compatible standalone copy is active. The live `agents/*` abilities are substrate
+capabilities, not Extra Chill product semantics.
+
+### 2. Generic Platform Services
+
+Generic services provide reusable operational capability while remaining ignorant
+of Extra Chill domains:
+
+| Owner | Current responsibility |
+| --- | --- |
+| [Data Machine](https://github.com/Extra-Chill/data-machine) | WordPress automation product: agents, flows, pipelines, jobs, handlers, memory, approvals, content operations, and `datamachine/*` abilities |
+| [Data Machine Business](https://github.com/Extra-Chill/data-machine-business) | Analytics-provider, business-service, media-maintenance, and communication integrations |
+| [Data Machine Socials](https://github.com/Extra-Chill/data-machine-socials) | Social account, publishing, reading, engagement, and delivery contracts |
+| [Data Machine Code](https://github.com/Extra-Chill/data-machine-code) | Repository, managed worktree, GitHub, and coding workspace contracts |
+| [Data Machine Chat Bridge](https://github.com/Extra-Chill/data-machine-chat-bridge) | Generic external chat transport queue and delivery contracts |
+| [WP Codebox](https://github.com/Automattic/wp-codebox) | Disposable WordPress coding and browser-contained sandbox contracts |
+| [Frontend Agent Chat](https://github.com/Automattic/frontend-agent-chat) | Generic frontend agent chat interface |
+| Intelligence | Retrieval, corpus, and wiki capabilities used by Studio; the installed repository is not publicly linkable |
+
+These repositories own their service contracts. Extensions add providers or
+adapters through those contracts; they do not make the generic service aware of a
+specific Extra Chill product.
+
+### 3. Domain Owners
+
+A domain owner owns its storage, authorization, invariants, and public operations.
+The live runtime confirms owner abilities for analytics, users, newsletters,
+community, commerce, artists, events, documentation, and other site-scoped domains.
+
+| Domain | Owner repository | Public boundary examples |
+| --- | --- | --- |
+| Network foundation | [Extra Chill Network](https://github.com/Extra-Chill/extrachill-network) | Network administration, shared policy, experiment and network operations |
+| Identity and user state | [Extra Chill Users](https://github.com/Extra-Chill/extrachill-users) | User, onboarding, profile, moderation, subscription, notification, and access abilities |
+| Analytics | [Extra Chill Analytics](https://github.com/Extra-Chill/extrachill-analytics) | Event tracking and aggregate reporting abilities |
+| Newsletter | [Extra Chill Newsletter](https://github.com/Extra-Chill/extrachill-newsletter) | Subscription, campaign, settings, and reporting abilities |
+| Community | [Extra Chill Community](https://github.com/Extra-Chill/extrachill-community) | Forum, topic, reply, voting, draft, and community reporting abilities |
+| Commerce | [Extra Chill Shop](https://github.com/Extra-Chill/extrachill-shop) | Product, order, shipping, refund, and Stripe-facing abilities |
+| Artists | [Extra Chill Artist Platform](https://github.com/Extra-Chill/extrachill-artist-platform) | Artist projections, roster, relationship, links, subscriber, and permission abilities |
+| Events and venues | [Extra Chill Events](https://github.com/Extra-Chill/extrachill-events) | Event projections, venue membership, booking, settlement, local-support, and vendor abilities |
+| Event ingestion and quality | [Data Machine Events](https://github.com/Extra-Chill/data-machine-events) | Event and venue import, query, geocoding, deduplication, and quality abilities |
+| Publication | [Extra Chill Blog](https://github.com/Extra-Chill/extrachill-blog) | Main-site presentation and public festival projections |
+| News wire | [Extra Chill News Wire](https://github.com/Extra-Chill/extrachill-news-wire) | Wire content and bounded activity projections |
+| Search | [ExtraChill Search](https://github.com/Extra-Chill/extrachill-search) | Network search behavior and `extrachill/multisite-search` |
+| SEO | [Extra Chill SEO](https://github.com/Extra-Chill/extrachill-seo) | SEO analysis, configuration, indexing, sitemap, and redirect abilities |
+| Documentation | [Extra Chill Docs](https://github.com/Extra-Chill/extrachill-docs) | Documentation presentation and document upsert ability |
+| Editorial blocks | [Extra Chill Content Blocks](https://github.com/Extra-Chill/extrachill-content-blocks) | Reusable editorial and interactive blocks |
+| Contact | [Extra Chill Contact](https://github.com/Extra-Chill/extrachill-contact) | Contact submission ability and product-owned side effects |
+| Studio | [Extra Chill Studio](https://github.com/Extra-Chill/extrachill-studio) | Editorial composition and Studio-specific workflows |
+
+Public abilities are the default cross-repository operation boundary. A documented
+public service, hook, package export, or WordPress core API is also valid when the
+owner defines that contract. Another repository must not load physical sibling
+paths, instantiate sibling-internal classes, query a foreign table, or duplicate an
+owner's authorization and product rules.
+
+Cross-site execution does not transfer ownership. An adapter may enter the owner's
+site context, call the owner's public operation, and restore the original multisite
+context. The owner still validates and executes the behavior.
+
+### 4. Adapters
+
+Adapters translate an owner contract for a transport or consumer. They may own
+transport authentication, rate limiting, route affinity, argument projection,
+output normalization, and presentation, but not the backing product semantics.
+
+| Adapter | Boundary |
+| --- | --- |
+| [Extra Chill API](https://github.com/Extra-Chill/extrachill-api) | REST adapter for owner abilities and WordPress services; it does not own domain data or business logic |
+| [Extra Chill CLI](https://github.com/Extra-Chill/extrachill-cli) | Operator-facing WP-CLI composition over owner abilities; commands bootstrap the owner site rather than loading sibling internals |
+| [Extra Chill Roadie](https://github.com/Extra-Chill/extrachill-roadie) | Extra Chill tool and role adapter for Frontend Agent Chat; resolves product actions through owner contracts |
+| [Extra Chill Events Network Blocks](https://github.com/Extra-Chill/extrachill-events) | Network distribution adapter for public Events-owned blocks without loading the full Events product runtime everywhere |
+
+REST and ability schemas that expose the same operation require parity tests in the
+adapter repository. Intentional transport-only fields or owner-only inputs must be
+explicit and justified there.
+
+### 5. Frontend Composition
+
+The [Extra Chill theme](https://github.com/Extra-Chill/extrachill) supplies the
+shared WordPress presentation shell on every site. Site plugins compose their own
+templates, blocks, and data into that shell.
+
+[Extra Chill Tokens](https://github.com/Extra-Chill/extrachill-tokens) owns shared
+design tokens. [Extra Chill Components](https://github.com/Extra-Chill/extrachill-components)
+publishes stable compiled component, type, CSS, and retained Sass contracts.
+[Blocks Everywhere](https://github.com/Extra-Chill/blocks-everywhere) provides the
+generic embedded Gutenberg editor runtime. Product plugins provide editor settings,
+blocks, and domain behavior through public package and WordPress contracts rather
+than adding consumer branches to the generic editor.
+
+## Enforcement and Evidence
+
+Homeboy provides generic detection. `homeboy review audit --profile architecture`
+can detect configured layer ownership drift, and its detector remains product and
+ecosystem agnostic. The component configuration and repository tests define what a
+specific product owns. Homeboy does not own a central Extra Chill product allowlist.
+
+Representative merged audit work:
+
+- [Data Machine #3061](https://github.com/Extra-Chill/data-machine/pull/3061) exposed revisioned public pipeline configuration contracts.
+- [Extra Chill Events #616](https://github.com/Extra-Chill/extrachill-events/pull/616) removed private Data Machine table and option coupling in favor of those contracts.
+- [Extra Chill CLI #131](https://github.com/Extra-Chill/extrachill-cli/pull/131) replaced sibling-internal loading with owner-site ability bootstrap.
+- [Extra Chill API #154](https://github.com/Extra-Chill/extrachill-api/pull/154) added repository-local REST-to-ability schema parity detection.
+- [Blocks Everywhere #127](https://github.com/Extra-Chill/blocks-everywhere/pull/127) isolated embedded editor settings while keeping the generic runtime consumer-neutral.
+- [Extra Chill Components #25](https://github.com/Extra-Chill/extrachill-components/pull/25) published a stable compiled package contract based on verified consumers.
+- [Homeboy #11160](https://github.com/Extra-Chill/homeboy/pull/11160) activated configurable layer ownership rules.
+- [Homeboy #5021](https://github.com/Extra-Chill/homeboy/pull/5021) moved language and ecosystem semantics out of generic detector implementations and into extension or component configuration.
+
+Representative repository-local contracts and checks:
+
+- [Data Machine ability boundary smoke](https://github.com/Extra-Chill/data-machine/blob/main/tests/ability-boundary-helpers-smoke.php)
+- [Data Machine pipeline configuration tests](https://github.com/Extra-Chill/data-machine/blob/main/tests/Unit/Abilities/PipelineConfigurationAbilitiesTest.php)
+- [Extra Chill Events canonical adapter contracts](https://github.com/Extra-Chill/extrachill-events/blob/main/tests/Unit/Abilities/CanonicalAdapterContractsTest.php)
+- [Extra Chill Events multisite schema integration](https://github.com/Extra-Chill/extrachill-events/blob/main/tests/MySQLIntegration/BookingSchemaMultisiteTest.php)
+- [Extra Chill API route and ability parity test](https://github.com/Extra-Chill/extrachill-api/blob/main/tests/Unit/routes/AbilityRouteSchemaParityTest.php)
+- [Extra Chill CLI owner-site ability test](https://github.com/Extra-Chill/extrachill-cli/blob/main/tests/OwnerSiteAbilityTest.php)
+- [Extra Chill Roadie owner capability smoke](https://github.com/Extra-Chill/extrachill-roadie/blob/main/tests/artist-owner-capabilities-smoke.php)
+- [Blocks Everywhere editor settings test](https://github.com/Extra-Chill/blocks-everywhere/blob/trunk/src/editor/settings.test.ts)
+- [Extra Chill Components package contract test](https://github.com/Extra-Chill/extrachill-components/blob/main/test/package-contract.test.mjs)
+- [Homeboy layer ownership detector](https://github.com/Extra-Chill/homeboy/blob/main/crates/homeboy-code-audit/src/detectors/layer_ownership.rs)
+
+New architecture constraints belong beside the code and contract they protect.
+Organization documentation may link to those checks and summarize their direction;
+it must not duplicate their product allowlists or become a second scanner.
