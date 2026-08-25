@@ -42,8 +42,8 @@ the repository that owns the affected behavior.
 ## Live Network
 
 WordPress users are shared across the multisite network. Media remains site-local.
-All nine sites currently use the Extra Chill theme, with site and network plugins
-adding the product-specific behavior.
+The nine public product sites use the Extra Chill theme. Private blog 13 retains
+Twenty Twenty-Five until the Link Pages cutover activates its standalone runtime.
 
 | Blog ID | Site | Current role | Additional site-active plugins |
 | ---: | --- | --- | --- |
@@ -56,6 +56,31 @@ adding the product-specific behavior.
 | 10 | [docs.extrachill.com](https://docs.extrachill.com/) | Documentation | Data Machine Code; Extra Chill Docs |
 | 11 | [wire.extrachill.com](https://wire.extrachill.com/) | Festival Wire and news feeds | Data Machine Socials; Extra Chill News Wire; Mediavine Control Panel |
 | 12 | [studio.extrachill.com](https://studio.extrachill.com/) | Editorial studio | Blocks Everywhere; Data Machine Socials; Extra Chill Studio; Intelligence |
+| 13 | [extrachill.link](https://extrachill.link/) | Private Link Pages cutover target | Extra Chill Link Pages after cutover |
+
+### Link Pages Cutover
+
+Blog 13 is the canonical owner-neutral Link Pages site. Production cutover must
+remain ordered and reversible:
+
+1. Release and install Extra Chill Link Pages plus its Artist and Events adapters.
+2. Copy blog-4 Link Page posts, metadata, attachments, and attachment files to
+   blog 13 while preserving IDs and slugs. Copy analytics records without changing
+   their Link Page post IDs.
+3. Verify row counts, owner references, public projections, media URLs, and rendered
+   output against blog 4 before changing canonical storage.
+4. Set canonical storage to blog 13, activate the standalone runtime there, flush
+   its rewrites, and verify public URLs while site 13 remains private.
+5. Deploy the no-op `sunrise.php`. WordPress core then resolves `extrachill.link`
+   directly to blog 13. Keep the production `SUNRISE` constant temporarily so the
+   routing change and config cleanup are separate rollback boundaries.
+6. Make blog 13 public only after HTTP, cache, analytics, sitemap, REST, and editor
+   parity checks pass. Redirect `www.extrachill.link` to the apex at Cloudflare.
+7. Remove the `SUNRISE` constant in a later config change. Retain blog-4 source
+   records until the rollback window closes; do not delete them during cutover.
+
+Rollback before source-record cleanup restores the prior Sunrise file and storage
+blog setting, then flushes blog-4 rewrites and cache. No rollback step rewrites IDs.
 
 ## Network-Active Plugins
 
