@@ -31,8 +31,7 @@ The inventory was rebuilt from the live production runtime without changing it:
 - `wp --url=<site> theme list --status=active` confirmed the theme on every site.
 - `wp --url=<site> eval 'array_keys( wp_get_abilities() )'` confirmed the current owner ability surfaces.
 - `/var/www/extrachill.com/wp-content/uploads/datamachine-files/network/NETWORK.md`, generated at 2026-08-08 21:03:42 UTC, supplied the composed nine-site names and roles.
-- Merged audit pull requests and repository default branches supplied ownership and contract evidence.
-- `homeboy review audit --help` and Homeboy's merged audit work supplied the current generic detection contract.
+- Merged architecture pull requests and repository default branches supplied ownership and contract evidence.
 
 This is a point-in-time, manually reviewed snapshot. Before relying on inventory
 details after the generated timestamp, rerun the commands above and compare the
@@ -186,12 +185,12 @@ than adding consumer branches to the generic editor.
 
 ## Enforcement and Evidence
 
-Homeboy provides generic detection. `homeboy review audit --profile architecture`
-can detect configured layer ownership drift, and its detector remains product and
-ecosystem agnostic. The component configuration and repository tests define what a
-specific product owns. Homeboy does not own a central Extra Chill product allowlist.
+Each repository enforces its own boundaries through repository-local contracts and
+tests, run by Homeboy's `review lint` and `review test` gates. The component
+configuration and repository tests define what a specific product owns. Homeboy
+does not own a central Extra Chill product allowlist.
 
-Representative merged audit work:
+Representative merged boundary work:
 
 - [Data Machine #3061](https://github.com/Extra-Chill/data-machine/pull/3061) exposed revisioned public pipeline configuration contracts.
 - [Extra Chill Events #616](https://github.com/Extra-Chill/extrachill-events/pull/616) removed private Data Machine table and option coupling in favor of those contracts.
@@ -199,8 +198,6 @@ Representative merged audit work:
 - [Extra Chill API #154](https://github.com/Extra-Chill/extrachill-api/pull/154) added repository-local REST-to-ability schema parity detection.
 - [Blocks Everywhere #127](https://github.com/Extra-Chill/blocks-everywhere/pull/127) isolated embedded editor settings while keeping the generic runtime consumer-neutral.
 - [Extra Chill Components #25](https://github.com/Extra-Chill/extrachill-components/pull/25) published a stable compiled package contract based on verified consumers.
-- [Homeboy #11160](https://github.com/Extra-Chill/homeboy/pull/11160) activated configurable layer ownership rules.
-- [Homeboy #5021](https://github.com/Extra-Chill/homeboy/pull/5021) moved language and ecosystem semantics out of generic detector implementations and into extension or component configuration.
 
 Representative repository-local contracts and checks:
 
@@ -213,7 +210,6 @@ Representative repository-local contracts and checks:
 - [Extra Chill Roadie owner capability smoke](https://github.com/Extra-Chill/extrachill-roadie/blob/main/tests/artist-owner-capabilities-smoke.php)
 - [Blocks Everywhere editor settings test](https://github.com/Extra-Chill/blocks-everywhere/blob/trunk/src/editor/settings.test.ts)
 - [Extra Chill Components package contract test](https://github.com/Extra-Chill/extrachill-components/blob/main/test/package-contract.test.mjs)
-- [Homeboy layer ownership detector](https://github.com/Extra-Chill/homeboy/blob/main/crates/homeboy-code-audit/src/detectors/layer_ownership.rs)
 
 New architecture constraints belong beside the code and contract they protect.
 Organization documentation may link to those checks and summarize their direction;
